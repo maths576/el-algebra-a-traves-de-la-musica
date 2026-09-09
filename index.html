@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Enigma de la Partitura Perdida</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    background:
+      radial-gradient(circle at top, rgba(93,65,42,.25), transparent 45%),
+      #17120f;
+    color: #f6ead7;
+    min-height: 100vh;
+  }
+  .screen {
+    min-height: 100vh;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+  }
+  .screen.active { display: flex; }
+
+  /* Animación de entrada */
+  #inicio.active .cover {
+    animation: aparecer .9s ease-out both;
+  }
+  #inicio.active .music {
+    animation: flotar 2.2s ease-in-out infinite, aparecer .8s ease-out both;
+  }
+  #inicio.active h1 {
+    animation: subir .9s .15s ease-out both;
+  }
+  #inicio.active .subtitle {
+    animation: subir .9s .3s ease-out both;
+  }
+  #inicio.active p {
+    animation: subir .9s .45s ease-out both;
+  }
+  #inicio.active .btn {
+    animation: aparecer .8s .7s ease-out both;
+  }
+  @keyframes aparecer {
+    from { opacity: 0; transform: scale(.96); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes subir {
+    from { opacity: 0; transform: translateY(22px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes flotar {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(2deg); }
+  }
+  .card {
+    width: min(900px, 100%);
+    background: rgba(35,26,21,.96);
+    border: 1px solid #8d704d;
+    border-radius: 20px;
+    padding: 42px;
+    box-shadow: 0 18px 60px rgba(0,0,0,.45);
+  }
+  .cover {
+    text-align: center;
+    max-width: 850px;
+  }
+  .music { font-size: 4rem; margin-bottom: 10px; }
+  h1 {
+    font-size: clamp(2.2rem, 6vw, 4.5rem);
+    margin: 0 0 12px;
+    letter-spacing: 2px;
+    color: #e8c98f;
+  }
+  h2 { color: #e8c98f; font-size: 2rem; }
+  h3 { color: #e8c98f; }
+  p, li { line-height: 1.65; font-size: 1.08rem; }
+  .subtitle { color: #cbb99e; font-style: italic; }
+  .btn {
+    border: 0;
+    border-radius: 12px;
+    padding: 14px 24px;
+    margin-top: 14px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    background: #d4a85b;
+    color: #20160d;
+    transition: transform .15s, filter .15s;
+  }
+  .btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+  .btn.secondary { background: #4d4035; color: #f6ead7; }
+  .progress {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+  .dot {
+    height: 8px;
+    flex: 1;
+    border-radius: 8px;
+    background: #4b4037;
+  }
+  .dot.done { background: #d4a85b; }
+  .equation {
+    text-align: center;
+    font-size: 2rem;
+    padding: 28px;
+    margin: 24px 0;
+    background: #17120f;
+    border: 1px solid #5f4d3a;
+    border-radius: 14px;
+  }
+  .options {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .option {
+    padding: 16px;
+    background: #2b211b;
+    color: #f6ead7;
+    border: 1px solid #665440;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1.05rem;
+    text-align: left;
+  }
+  .option:hover { background: #3a2c23; }
+  .option.correct { border-color: #82bd82; background: #243825; }
+  .option.wrong { border-color: #c7776f; background: #3b2421; }
+  .feedback {
+    min-height: 48px;
+    margin-top: 18px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #201914;
+  }
+  .hint {
+    color: #d9c8ad;
+    font-size: .95rem;
+    margin-top: 12px;
+  }
+  .locked {
+    opacity: .5;
+    pointer-events: none;
+  }
+  .secret {
+    text-align: center;
+    padding: 25px;
+    border: 1px dashed #8d704d;
+    border-radius: 14px;
+    margin-top: 22px;
+  }
+  input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #806a50;
+    background: #17120f;
+    color: white;
+    font-size: 1.1rem;
+    margin: 10px 0;
+  }
+  .result-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .result {
+    background: #17120f;
+    border: 1px solid #665440;
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+  }
+  .big { font-size: 2.3rem; color: #e8c98f; }
+  .success { color: #a9d8a9; }
+  .error { color: #e69a91; }
+  .small { font-size: .9rem; color: #bba991; }
+  @media (max-width: 650px) {
+    .card { padding: 25px 18px; }
+    .options, .result-grid { grid-template-columns: 1fr; }
+    .equation { font-size: 1.5rem; }
+  }
+
+/* Detalles propios del proyecto */
+.card { border-radius: 14px; }
+.secret { background: rgba(23,18,15,.35); }
+.btn { letter-spacing: .3px; }
+.option { transition: transform .12s ease, background .12s ease; }
+.option:hover { transform: translateX(2px); }
+
+</style>
+</head>
+<body>
+
+<section id="inicio" class="screen active">
+  <div class="card cover">
+    <div class="music">🎼</div>
+    <p class="subtitle"><strong>🎼 EL ENIGMA DE LA PARTITURA PERDIDA</strong></p>
+    <h1>El Enigma de la<br>Partitura Perdida</h1>
+    <p class="subtitle">Un juego de matemáticas y música</p>
+
+    <p><strong>Proyecto de matemáticas 🎵</strong></p>
+
+    <p>
+      Ayer pasó algo raro en el conservatorio...
+      Una de las partituras más importantes <strong>desapareció</strong> y nadie sabe dónde está.
+    </p>
+
+    <p>
+      Antes de irse, el compositor alcanzó a dejar un mensaje:
+    </p>
+
+    <div class="secret">
+      <p><em>“La melodía está escondida entre números.<br>
+      Solo quien comprenda los patrones podrá encontrarla.”</em></p>
+    </div>
+
+    <p>
+      Cada parte de la melodía quedó protegida con
+      <strong>retos matemáticos</strong>. Para avanzar tendrás que demostrar que
+      sabes reconocer y resolver <strong>productos y cocientes notables</strong>.
+    </p>
+
+    <h3>🎯 TU MISIÓN</h3>
+    <p>
+      🔎 Encuentra las pistas.<br>
+      🎵 Recupera las notas.<br>
+      🎼 Arma la melodía.<br>
+      🔐 Encuentra el código.
+    </p>
+
+    <p><strong>¿Listo? La partitura te está esperando 👀</strong></p>
+
+    <button class="btn" onclick="mostrar('nivel1')">🎵 EMPEZAR</button>
+  </div>
+</section>
+
+<section id="nivel1" class="screen">
+  <div class="card">
+    <div class="progress">
+      <div class="dot done"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <h2>🔐 Nivel 1 — Cocientes secretos</h2>
+    <p>
+      El compositor dejó tres expresiones escondidas. Reconoce el cociente notable
+      y elige su expresión simplificada.
+    </p>
+    <div id="reto"></div>
+    <div id="feedback" class="feedback">Escoge una respuesta.</div>
+    <button id="nextBtn" class="btn locked" onclick="siguienteReto()">➡️ Siguiente</button>
+    <button class="btn secondary" onclick="mostrar('inicio')">Volver</button>
+  </div>
+</section>
+
+<section id="resultados" class="screen">
+  <div class="card">
+    <div class="progress">
+      <div class="dot done"></div><div class="dot done"></div><div class="dot"></div>
+    </div>
+    <h2>🎵 ¡Ya tienes los números!</h2>
+    <p>
+      Ahora toca evaluar las expresiones usando <strong>x = 3</strong>.
+      Con estos resultados podemos recuperar las figuras musicales.
+    </p>
+    <div class="result-grid">
+      <div class="result"><div>Nota A</div><div class="big">6</div><div>x + 3</div></div>
+      <div class="result"><div>Nota B</div><div class="big">19</div><div>x² + 2x + 4</div></div>
+      <div class="result"><div>Nota C</div><div class="big">2</div><div>x − 1</div></div>
+    </div>
+    <div class="secret">
+      <h3>🗝️ Una pista más</h3>
+      <p>“Los números no son el final. Ahora piensa en música.”</p>
+      <button class="btn" onclick="mostrar('nivel2')">🎼 SEGUIR</button>
+    </div>
+  </div>
+</section>
+
+<section id="nivel2" class="screen">
+  <div class="card">
+    <div class="progress">
+      <div class="dot done"></div><div class="dot done"></div><div class="dot done"></div>
+    </div>
+    <h2>🎼 Nivel 2 — Figuras musicales</h2>
+    <p>
+      Relaciona el resultado con la figura musical que corresponde.
+      Ojo: el número obtenido no es directamente la cantidad de tiempos.
+    </p>
+    <div class="equation">6 &nbsp; → &nbsp; ¿qué figura musical?</div>
+    <div class="options">
+      <button class="option" onclick="figura(this,false)">🎵 Corchea — 0,5 tiempos</button>
+      <button class="option" onclick="figura(this,true)">♩ Negra — 1 tiempo</button>
+      <button class="option" onclick="figura(this,false)">𝅗𝅥 Blanca — 2 tiempos</button>
+      <button class="option" onclick="figura(this,false)">𝅝 Redonda — 4 tiempos</button>
+    </div>
+    <div id="figFeedback" class="feedback">Escoge una opción.</div>
+    <div id="continuar2" class="secret locked">
+      <p class="success"><strong>¡Figura recuperada! 🎉</strong></p>
+      <p>Ya falta poco. Ahora podemos seguir con la melodía.</p>
+      <button class="btn" onclick="mostrar('final')">🔓 SEGUIR</button>
+    </div>
+  </div>
+</section>
+
+<section id="final" class="screen">
+  <div class="card cover">
+    <div class="music">🔐🎼</div>
+    <h2>El candado final</h2>
+    <p>
+      Ya recuperaste parte de la partitura. Solo falta descubrir el código final.
+    </p>
+
+    <div class="secret" style="text-align:left;">
+      <h3>🧩 Última pista</h3>
+      <p>El código está escondido en <strong>dos productos notables</strong>. No te vamos a dar el resultado: tendrás que descubrirlo.</p>
+
+      <p><strong>🔎 Pista 1</strong></p>
+      <p>Busca en los retos anteriores la expresión <strong>(x + 3)²</strong>.</p>
+      <p>Recuerda la fórmula del <strong>cuadrado de un binomio</strong>:</p>
+      <div class="equation">(a + b)² = a² + 2ab + b²</div>
+      <p>Desarrolla la expresión y fíjate especialmente en el <strong>término que queda solo, sin x</strong>. Ese número te dará la primera cifra.</p>
+
+      <p><strong>🔎 Pista 2</strong></p>
+      <p>Ahora busca la expresión <strong>(x + 5)(x − 5)</strong>.</p>
+      <p>Recuerda la fórmula de <strong>suma por diferencia</strong>:</p>
+      <div class="equation">(a + b)(a − b) = a² − b²</div>
+      <p>Desarrolla la expresión y observa el número que aparece al final. <strong>No necesitas usar x</strong>: piensa en qué número está elevado al cuadrado.</p>
+
+      <p><strong>🔐 Para formar el código</strong></p>
+      <p>Ya tienes dos pistas. La primera te da la <strong>primera cifra</strong> y la segunda te da la <strong>segunda cifra</strong>.</p>
+      <div class="equation" style="font-size:2rem;">[ primera cifra ] [ segunda cifra ]</div>
+      <p class="small">💡 Si te atascaste, vuelve a aplicar las dos fórmulas con calma. El código tiene solamente <strong>2 cifras</strong>.</p>
+    </div>
+    <input id="codigo" type="text" inputmode="numeric" maxlength="2" placeholder="Escribe el código aquí">
+    <button class="btn" onclick="comprobarCodigo()">🔓 ABRIR CAJA</button>
+    <div id="codeFeedback" class="feedback">Escribe el código para probar.</div>
+  </div>
+</section>
+
+
+<section id="ganaste" class="screen">
+  <div class="card cover">
+    <div class="music">🎉🎼🔓</div>
+    <h1>¡GANASTE!</h1>
+    <p class="subtitle">La partitura perdida ha sido recuperada.</p>
+    <div class="secret">
+      <h2>🎵 ¡Misterio resuelto!</h2>
+      <p>Lograste superar los retos, seguir las pistas y descubrir el código de la caja fuerte.</p>
+      <p><strong>La melodía vuelve a estar completa. 🎶</strong></p>
+    </div>
+    <p class="success"><strong>🏆 ¡Felicidades, detective!</strong></p>
+    <button class="btn" onclick="mostrar('inicio')">🔄 Jugar de nuevo</button>
+  </div>
+</section>
+
+<script>
+const retos = [
+  {
+    eq: "(x² − 9) / (x − 3)",
+    opts: ["x − 3", "x + 3", "x² + 3", "3x"],
+    correct: 1,
+    hint: "Piensa en una diferencia de cuadrados: x² − 3²."
+  },
+  {
+    eq: "(x³ − 8) / (x − 2)",
+    opts: ["x² + 2x + 4", "x² − 2x + 4", "x + 2", "x² + 4"],
+    correct: 0,
+    hint: "Es una diferencia de cubos: x³ − 2³."
+  },
+  {
+    eq: "(x² − 1) / (x + 1)",
+    opts: ["x + 1", "x − 1", "x² − 1", "1 − x"],
+    correct: 1,
+    hint: "Factoriza x² − 1 como (x − 1)(x + 1)."
+  }
+];
+
+let actual = 0;
+let acertados = 0;
+
+function mostrar(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (id === 'nivel1') cargarReto();
+}
+
+function cargarReto() {
+  const r = retos[actual];
+  document.getElementById('reto').innerHTML = `
+    <p><strong>Reto ${actual + 1} de ${retos.length}</strong></p>
+    <div class="equation">${r.eq}</div>
+    <div class="options">
+      ${r.opts.map((o,i)=>`<button class="option" onclick="responder(${i}, this)">${o}</button>`).join('')}
+    </div>
+    <p class="hint">💡 Pista disponible: ${r.hint}</p>
+  `;
+  document.getElementById('feedback').textContent = 'Escoge una respuesta.';
+  document.getElementById('nextBtn').classList.add('locked');
+}
+
+function responder(i, btn) {
+  const r = retos[actual];
+  document.querySelectorAll('#reto .option').forEach(b => b.disabled = true);
+  if (i === r.correct) {
+    btn.classList.add('correct');
+    document.getElementById('feedback').innerHTML = '✅ <span class="success"><strong>¡Bien! 😎</strong> Encontraste otra pista de la partitura.</span>';
+    document.getElementById('nextBtn').classList.remove('locked');
+    acertados++;
+  } else {
+    btn.classList.add('wrong');
+    document.getElementById('feedback').innerHTML = '❌ <span class="error"><strong>Todavía no.</strong> Mira otra vez el patrón del cociente notable.</span>';
+    setTimeout(() => {
+      document.querySelectorAll('#reto .option').forEach(b => b.disabled = false);
+      btn.classList.remove('wrong');
+    }, 800);
+  }
+}
+
+function siguienteReto() {
+  if (actual < retos.length - 1) {
+    actual++;
+    cargarReto();
+  } else {
+    mostrar('resultados');
+  }
+}
+
+function figura(btn, correcta) {
+  document.querySelectorAll('#nivel2 .option').forEach(b => b.disabled = true);
+  if (correcta) {
+    btn.classList.add('correct');
+    document.getElementById('figFeedback').innerHTML =
+      '✅ <span class="success"><strong>¡Bien! 😎</strong> El resultado 6 corresponde a una negra (1 tiempo).</span>';
+    document.getElementById('continuar2').classList.remove('locked');
+  } else {
+    btn.classList.add('wrong');
+    document.getElementById('figFeedback').innerHTML =
+      '❌ <span class="error">Casi. Revisa la tabla de equivalencias del juego.</span>';
+    setTimeout(() => {
+      document.querySelectorAll('#nivel2 .option').forEach(b => b.disabled = false);
+      btn.classList.remove('wrong');
+    }, 800);
+  }
+}
+
+function comprobarCodigo() {
+  const codigo = document.getElementById('codigo').value.trim();
+  const f = document.getElementById('codeFeedback');
+  if (codigo === '95') {
+    f.innerHTML = '🎉 <span class="success"><strong>¡CAJA ABIERTA! 🎉</strong> ¡Encontraste la partitura perdida! 🎼</span>';
+    document.querySelector('#final .music').textContent = '🎉🎼🎉';
+    setTimeout(() => mostrar('ganaste'), 900);
+  } else {
+    f.innerHTML = '🔒 <span class="error"><strong>Ese código no es.</strong> Revisa las pistas e inténtalo otra vez.</span>';
+  }
+}
+</script>
+</body>
+</html>
