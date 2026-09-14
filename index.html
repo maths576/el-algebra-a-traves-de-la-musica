@@ -72,10 +72,10 @@
     font-size: clamp(2.2rem, 6vw, 4.5rem);
     margin: 0 0 12px;
     letter-spacing: 2px;
-    color: #e8c98f;
+    color: #ff4b52;
   }
-  h2 { color: #e8c98f; font-size: 2rem; }
-  h3 { color: #e8c98f; }
+  h2 { color: #ff4b52; font-size: 2rem; }
+  h3 { color: #ff4b52; }
   p, li { line-height: 1.65; font-size: 1.08rem; }
   .subtitle { color: #cbb99e; font-style: italic; }
   .btn {
@@ -86,7 +86,7 @@
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
-    background: #d4a85b;
+    background: #e3262e;
     color: #20160d;
     transition: transform .15s, filter .15s;
   }
@@ -103,7 +103,7 @@
     border-radius: 8px;
     background: #4b4037;
   }
-  .dot.done { background: #d4a85b; }
+  .dot.done { background: #e3262e; }
   .equation {
     text-align: center;
     font-size: 2rem;
@@ -177,7 +177,7 @@
     padding: 18px;
     text-align: center;
   }
-  .big { font-size: 2.3rem; color: #e8c98f; }
+  .big { font-size: 2.3rem; color: #ff4b52; }
   .success { color: #a9d8a9; }
   .error { color: #e69a91; }
   .small { font-size: .9rem; color: #bba991; }
@@ -187,6 +187,28 @@
     .equation { font-size: 1.5rem; }
   }
 
+
+/* Introducción tipo escape room */
+.intro-card { position: relative; overflow: hidden; }
+.classified {
+  display: inline-block; padding: 8px 14px; border: 1px solid #8f1117;
+  border-radius: 6px; color: #ff4b52; font-size: .82rem; font-weight: bold;
+  letter-spacing: 1.5px; margin-bottom: 8px; background: rgba(70,45,30,.25);
+}
+.year { color: #888888; font-size: .82rem; letter-spacing: 3px; margin-bottom: 18px; }
+.story { max-width: 720px; margin: 0 auto; }
+.secret span { display: block; margin-top: 10px; color: #888888; font-size: .86rem; }
+.mission { margin: 26px auto 18px; padding: 18px 22px; max-width: 620px;
+  border-left: 3px solid #e3262e; background: rgba(23,18,15,.5); text-align: left; }
+.mission h3 { margin-top: 0; }
+.mission p { margin-bottom: 0; }
+.question { margin-top: 24px; color: #ff4b52; }
+#inicio.active .classified { animation: aparecer .7s ease-out both; }
+#inicio.active .year { animation: aparecer .7s .15s ease-out both; }
+#inicio.active .story { animation: subir .8s .3s ease-out both; }
+#inicio.active .secret { animation: aparecer .9s .45s ease-out both; }
+#inicio.active .mission { animation: subir .8s .55s ease-out both; }
+
 /* Detalles propios del proyecto */
 .card { border-radius: 14px; }
 .secret { background: rgba(23,18,15,.35); }
@@ -195,166 +217,1320 @@
 .option:hover { transform: translateX(2px); }
 
 </style>
+<style>
+.intro-card { position: relative; overflow: hidden; }
+.case-top { display:flex; justify-content:space-between; gap:12px; margin-bottom:18px;
+  color:#888888; font-size:.72rem; letter-spacing:1.4px; font-weight:bold; }
+.warning { display:inline-block; padding:8px 14px; border:1px solid #8f1117;
+  border-radius:4px; color:#ff4b52; background:rgba(90,40,30,.18);
+  font-size:.82rem; letter-spacing:1px; font-weight:bold; }
+.incident-box,.evidence { max-width:700px; margin:22px auto; padding:17px 20px;
+  text-align:left; border:1px solid rgba(180,160,130,.25);
+  background:rgba(15,13,12,.5); box-shadow:0 8px 25px rgba(0,0,0,.12); }
+.incident-title,.evidence-title { color:#ff4b52; font-size:.82rem; font-weight:bold;
+  letter-spacing:1.2px; margin-bottom:12px; }
+.incident-box p,.evidence p { margin:7px 0; }
+.small-note { color:#777777; font-size:.78rem; text-align:right; }
+.case-stamp { display:inline-block; margin:10px auto 2px; padding:6px 12px;
+  border:1px dashed #8f1117; color:#d7353c; transform:rotate(-2deg);
+  font-size:.72rem; letter-spacing:1.5px; font-weight:bold; }
+#inicio.active .warning { animation:aparecer .6s ease-out both; }
+#inicio.active .incident-box { animation:subir .7s .15s ease-out both; }
+#inicio.active .evidence { animation:subir .7s .35s ease-out both; }
+#inicio.active .mission { animation:subir .7s .5s ease-out both; }
+</style>
+
+<style>
+/* ===== Pantalla de inicio: expediente negro + rojo ===== */
+.intro-card{
+  position:relative;
+  overflow:hidden;
+  max-width:820px;
+}
+.intro-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);
+  background-size:28px 28px;
+  opacity:.22;
+}
+.top-secret{
+  position:relative;
+  z-index:1;
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  color:#888;
+  font-size:.68rem;
+  letter-spacing:1.7px;
+  font-weight:700;
+}
+.alarm-line{
+  height:2px;
+  margin:12px 0 25px;
+  background:linear-gradient(90deg,transparent,#e3262e 20%,#e3262e 80%,transparent);
+  box-shadow:0 0 12px rgba(227,38,46,.55);
+}
+.file-icon{
+  font-size:2.5rem;
+  filter:drop-shadow(0 0 12px rgba(227,38,46,.28));
+}
+.classified{
+  display:inline-block;
+  margin:8px 0 10px;
+  padding:5px 10px;
+  border:1px solid #a91c23;
+  color:#ff555c;
+  background:rgba(150,10,18,.12);
+  font-size:.68rem;
+  font-weight:800;
+  letter-spacing:2px;
+}
+.intro-card h1{
+  margin:8px 0 7px;
+  font-size:clamp(2rem,5vw,3.3rem);
+  line-height:1.02;
+  letter-spacing:1px;
+}
+.intro-card h1 span{
+  color:#e3262e;
+  text-shadow:0 0 22px rgba(227,38,46,.22);
+}
+.alert-card{
+  position:relative;
+  margin:24px auto 17px;
+  max-width:700px;
+  padding:17px 20px;
+  text-align:left;
+  background:linear-gradient(135deg,rgba(55,8,11,.55),rgba(15,15,15,.88));
+  border:1px solid rgba(227,38,46,.48);
+  border-left:4px solid #e3262e;
+}
+.alert-header{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:#ff4b52;
+  font-size:.82rem;
+  letter-spacing:1.2px;
+}
+.status-dot{
+  width:7px;
+  height:7px;
+  margin-left:auto;
+  border-radius:50%;
+  background:#e3262e;
+  box-shadow:0 0 10px #e3262e;
+  animation:pulse 1.4s infinite;
+}
+.alert-card p{
+  margin:10px 0 0;
+  color:#d2d2d2;
+  line-height:1.55;
+}
+.evidence-row{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  max-width:700px;
+  margin:0 auto 18px;
+}
+.mini-evidence{
+  padding:12px 10px;
+  text-align:left;
+  background:#0b0b0b;
+  border:1px solid #292929;
+}
+.mini-evidence span{
+  display:block;
+  color:#e3262e;
+  font-size:.68rem;
+  font-weight:800;
+}
+.mini-evidence strong{
+  display:block;
+  margin-top:3px;
+  color:#eee;
+  font-size:.76rem;
+}
+.mini-evidence small{
+  display:block;
+  margin-top:3px;
+  color:#888;
+  font-size:.68rem;
+}
+.quote-box{
+  max-width:700px;
+  margin:0 auto 18px;
+  padding:18px 22px 15px;
+  position:relative;
+  background:#0b0b0b;
+  border:1px solid #292929;
+}
+.quote-mark{
+  position:absolute;
+  left:10px;
+  top:2px;
+  color:#e3262e;
+  font-size:2.5rem;
+  line-height:1;
+}
+.quote-box p{
+  margin:2px 0 8px;
+  color:#ddd;
+  font-size:.98rem;
+  line-height:1.5;
+}
+.quote-box strong{color:#fff;}
+.quote-box small{color:#777;}
+.mission-banner{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  max-width:700px;
+  margin:0 auto 20px;
+  padding:13px 16px;
+  text-align:left;
+  border:1px solid rgba(227,38,46,.35);
+  background:rgba(227,38,46,.06);
+}
+.mission-banner > span{font-size:1.5rem;}
+.mission-banner strong{
+  color:#ff4b52;
+  font-size:.8rem;
+  letter-spacing:1.2px;
+}
+.mission-banner p{
+  margin:3px 0 0;
+  color:#aaa;
+  font-size:.8rem;
+}
+.start-btn{
+  min-width:260px;
+  font-weight:800;
+  letter-spacing:.5px;
+}
+.start-btn span{margin-right:7px;}
+.access-note{
+  margin:12px 0 0;
+  color:#666;
+  font-size:.68rem;
+}
+@keyframes pulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.35;transform:scale(.72)}
+}
+@media(max-width:620px){
+  .evidence-row{grid-template-columns:1fr;}
+  .top-secret{font-size:.58rem;}
+  .intro-card h1{font-size:2rem;}
+}
+#inicio.active .file-icon{animation:aparecer .5s ease-out both;}
+#inicio.active .classified{animation:aparecer .55s .08s ease-out both;}
+#inicio.active .alert-card{animation:subir .65s .18s ease-out both;}
+#inicio.active .evidence-row{animation:subir .65s .3s ease-out both;}
+#inicio.active .quote-box{animation:subir .65s .42s ease-out both;}
+#inicio.active .mission-banner{animation:subir .65s .54s ease-out both;}
+#inicio.active .start-btn{animation:aparecer .7s .68s ease-out both;}
+</style>
+
+
+<style>
+/* Limpieza final de tonos café: negro + rojo + gris */
+#inicio,
+#inicio .intro-card,
+#inicio .story,
+#inicio .cover {
+  color:#eeeeee;
+}
+#inicio .intro-card {
+  background:#0a0a0a !important;
+  border-color:#8f1117 !important;
+}
+#inicio .subtitle,
+#inicio .year,
+#inicio .case-top,
+#inicio .small-note,
+#inicio .access-note {
+  color:#888 !important;
+}
+#inicio .classified,
+#inicio .warning {
+  color:#ff4b52 !important;
+  border-color:#b51b22 !important;
+  background:rgba(227,38,46,.08) !important;
+}
+#inicio .incident-box,
+#inicio .evidence,
+#inicio .quote-box,
+#inicio .mini-evidence {
+  background:#0d0d0d !important;
+  border-color:#292929 !important;
+}
+#inicio .incident-title,
+#inicio .evidence-title,
+#inicio .mission-banner strong {
+  color:#ff4b52 !important;
+}
+#inicio .mission-banner {
+  background:rgba(227,38,46,.055) !important;
+  border-color:#8f1117 !important;
+}
+#inicio .case-stamp {
+  color:#d7353c !important;
+  border-color:#8f1117 !important;
+}
+#inicio .question {
+  color:#ff4b52 !important;
+}
+#inicio .secret {
+  color:#ddd !important;
+  background:#111 !important;
+  border-color:#8f1117 !important;
+}
+#inicio .quote-mark,
+#inicio .mini-evidence span,
+#inicio h1 span {
+  color:#e3262e !important;
+}
+#inicio .start-btn {
+  background:linear-gradient(135deg,#7f0d13,#e3262e) !important;
+  border-color:#ff4b52 !important;
+  color:#fff !important;
+}
+#inicio .start-btn:hover {
+  background:linear-gradient(135deg,#e3262e,#7f0d13) !important;
+}
+</style>
+
+
+<style>
+/* =========================================================
+   TEMA GLOBAL — NEGRO + ROJO
+   Aplicado a TODO el juego
+   ========================================================= */
+:root{
+  --black:#050505;
+  --black2:#0b0b0b;
+  --black3:#141414;
+  --red:#e3262e;
+  --red-dark:#7f0d13;
+  --red-mid:#a9141b;
+  --red-light:#ff4b52;
+  --white:#f1f1f1;
+  --gray:#aaa;
+  --gray-dark:#666;
+}
+
+/* Fondo y texto generales */
+html, body{
+  background:#050505 !important;
+  color:var(--white) !important;
+}
+body{
+  background:
+    radial-gradient(circle at 50% -10%, rgba(227,38,46,.12), transparent 38%),
+    linear-gradient(145deg,#030303,#0d0d0d 55%,#050505) !important;
+}
+
+/* Pantallas */
+.screen{
+  background:transparent !important;
+}
+
+/* Tarjetas y paneles */
+.card,
+.panel,
+.box,
+.question-card,
+.result-card,
+.level-card,
+.feedback,
+.clue,
+.lock,
+.code-box{
+  background:linear-gradient(145deg,#090909,#151515) !important;
+  color:var(--white) !important;
+  border-color:#292929 !important;
+  box-shadow:0 14px 40px rgba(0,0,0,.45) !important;
+}
+
+/* Títulos */
+h1,h2,h3,h4,h5,h6{
+  color:#fff !important;
+}
+h1 span,h2 span{
+  color:var(--red) !important;
+}
+
+/* Textos secundarios */
+.subtitle,.description,.small,.small-note,.muted{
+  color:#999 !important;
+}
+
+/* Botones */
+button,
+.btn,
+.next-btn,
+.start-btn,
+.option-btn{
+  background:linear-gradient(135deg,var(--red-dark),var(--red)) !important;
+  color:#fff !important;
+  border:1px solid var(--red-light) !important;
+  box-shadow:0 7px 20px rgba(227,38,46,.18) !important;
+}
+button:hover,
+.btn:hover,
+.next-btn:hover,
+.start-btn:hover,
+.option-btn:hover{
+  background:linear-gradient(135deg,var(--red),var(--red-dark)) !important;
+  box-shadow:0 9px 25px rgba(227,38,46,.32) !important;
+}
+
+/* Opciones / respuestas */
+.option,
+.choice,
+.answer,
+.answer-option,
+.quiz-option{
+  background:#0c0c0c !important;
+  color:#eee !important;
+  border:1px solid #333 !important;
+}
+.option:hover,
+.choice:hover,
+.answer:hover,
+.answer-option:hover,
+.quiz-option:hover{
+  background:rgba(227,38,46,.08) !important;
+  border-color:var(--red) !important;
+}
+.option.selected,
+.choice.selected,
+.answer.selected,
+.answer-option.selected,
+.quiz-option.selected{
+  background:rgba(227,38,46,.15) !important;
+  border-color:var(--red) !important;
+}
+
+/* Campos de código / respuestas */
+input,
+textarea,
+select{
+  background:#080808 !important;
+  color:#fff !important;
+  border:1px solid #444 !important;
+}
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:var(--red) !important;
+  outline:none !important;
+  box-shadow:0 0 0 2px rgba(227,38,46,.12) !important;
+}
+
+/* Pistas */
+.hint,
+.clue,
+.tip{
+  background:rgba(227,38,46,.06) !important;
+  color:#ddd !important;
+  border-color:#7f0d13 !important;
+}
+.hint strong,
+.clue strong,
+.tip strong{
+  color:var(--red-light) !important;
+}
+
+/* Feedback */
+.correct,
+.success{
+  background:rgba(227,38,46,.10) !important;
+  border-color:var(--red) !important;
+  color:#fff !important;
+}
+.wrong,
+.error{
+  background:rgba(90,5,10,.28) !important;
+  border-color:#8f1117 !important;
+  color:#ffb4b7 !important;
+}
+
+/* Líneas, separadores y progreso */
+hr,
+.divider{
+  border-color:#292929 !important;
+}
+.progress,
+.progress-bar{
+  background:#1a1a1a !important;
+}
+.progress-bar{
+  background:linear-gradient(90deg,var(--red-dark),var(--red)) !important;
+}
+
+/* Elementos musicales */
+.music,
+.note,
+.musical-note{
+  filter:drop-shadow(0 0 12px rgba(227,38,46,.22));
+}
+.note.active,
+.music.active{
+  color:var(--red-light) !important;
+}
+
+/* Candado final */
+.lock,
+.code-box{
+  border-color:#7f0d13 !important;
+}
+.lock-icon,
+.code-title{
+  color:var(--red-light) !important;
+}
+
+/* Pantalla de victoria */
+#ganaste .card{
+  background:radial-gradient(circle at 50% 15%,rgba(227,38,46,.15),#090909 58%) !important;
+  border-color:var(--red) !important;
+}
+#ganaste h1,
+#ganaste h2{
+  color:#fff !important;
+  text-shadow:0 0 22px rgba(227,38,46,.25);
+}
+#ganaste .btn{
+  background:linear-gradient(135deg,#7f0d13,#e3262e) !important;
+}
+
+/* Evitar cualquier resto evidente de café/#111111 en el juego */
+[style*="#8f1117"],[style*="#7f0d13"],[style*="#111111"],[style*="#e3262e"],
+.#8f1117,.#111111,.#e3262e,.coffee{
+  color:#ff4b52 !important;
+  border-color:#8f1117 !important;
+  background:#0b0b0b !important;
+}
+</style>
+
+
+<style id="black-red-final">
+/* PALETA ÚNICA DEL JUEGO: NEGRO + ROJO + GRIS */
+html,body{
+  background:#050505 !important;
+  color:#eeeeee !important;
+}
+.card,.panel,.box,.question-card,.result-card,.level-card,
+.feedback,.clue,.lock,.code-box,.container{
+  background:#0b0b0b !important;
+  color:#eeeeee !important;
+  border-color:#292929 !important;
+}
+h1,h2,h3,h4,h5,h6{color:#fff !important;}
+p,li,label{color:#ddd;}
+.subtitle,.year,.small,.small-note,.muted,.access-note{color:#888 !important;}
+
+button,.btn,.next-btn,.start-btn,.option-btn{
+  background:linear-gradient(135deg,#7f0d13,#e3262e) !important;
+  color:#fff !important;
+  border-color:#ff4b52 !important;
+}
+button:hover,.btn:hover,.next-btn:hover,.start-btn:hover,.option-btn:hover{
+  background:linear-gradient(135deg,#e3262e,#7f0d13) !important;
+}
+
+.option,.choice,.answer,.answer-option,.quiz-option{
+  background:#0d0d0d !important;
+  color:#eee !important;
+  border-color:#333 !important;
+}
+.option:hover,.choice:hover,.answer:hover,.answer-option:hover,.quiz-option:hover{
+  background:#171010 !important;
+  border-color:#e3262e !important;
+}
+input,textarea,select{
+  background:#080808 !important;
+  color:#fff !important;
+  border-color:#444 !important;
+}
+input:focus,textarea:focus,select:focus{
+  border-color:#e3262e !important;
+  box-shadow:0 0 0 2px rgba(227,38,46,.12) !important;
+}
+.hint,.clue,.tip,.secret{
+  background:#0d0d0d !important;
+  color:#ddd !important;
+  border-color:#7f0d13 !important;
+}
+.correct,.success{
+  background:#171010 !important;
+  border-color:#e3262e !important;
+  color:#fff !important;
+}
+.wrong,.error{
+  background:#19090b !important;
+  border-color:#8f1117 !important;
+  color:#ffb4b7 !important;
+}
+.progress{background:#1a1a1a !important;}
+.progress-bar{
+  background:linear-gradient(90deg,#7f0d13,#e3262e) !important;
+}
+.incident-box,.evidence,.quote-box,.mini-evidence{
+  background:#0b0b0b !important;
+  border-color:#292929 !important;
+}
+.incident-title,.evidence-title,.mission-banner strong,
+.warning,.classified,.case-stamp,.question{
+  color:#ff4b52 !important;
+}
+.mission,.mission-banner{
+  background:#0d0d0d !important;
+  border-color:#7f0d13 !important;
+}
+</style>
+
+
+<style id="investigation-game-style">
+/* ===== MISMO LENGUAJE VISUAL DEL EXPEDIENTE EN TODAS LAS PANTALLAS ===== */
+.case-screen .case-card{
+  position:relative; overflow:hidden; max-width:820px;
+  background:#0a0a0a !important; border:1px solid #8f1117 !important;
+  border-radius:14px; padding:34px 38px;
+}
+.case-screen .case-card::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:
+    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);
+  background-size:28px 28px; opacity:.22;
+}
+.case-content{position:relative; z-index:1;}
+.case-topline{
+  display:flex; justify-content:space-between; gap:12px;
+  color:#888; font-size:.68rem; letter-spacing:1.7px; font-weight:700;
+}
+.case-alarm{
+  height:2px; margin:12px 0 24px;
+  background:linear-gradient(90deg,transparent,#e3262e 20%,#e3262e 80%,transparent);
+  box-shadow:0 0 12px rgba(227,38,46,.55);
+}
+.case-label{
+  display:inline-block; padding:5px 10px; margin-bottom:10px;
+  border:1px solid #a91c23; color:#ff555c !important;
+  background:rgba(150,10,18,.12); font-size:.68rem; font-weight:800;
+  letter-spacing:2px;
+}
+.case-title{
+  margin:7px 0 6px !important; font-size:clamp(1.8rem,4.5vw,3rem) !important;
+  line-height:1.05; letter-spacing:1px;
+}
+.case-title span{color:#e3262e !important;text-shadow:0 0 22px rgba(227,38,46,.22);}
+.case-subtitle{color:#888 !important; font-size:.78rem !important; letter-spacing:2px;}
+.case-alert{
+  position:relative; margin:22px auto 17px; max-width:700px;
+  padding:16px 19px; text-align:left;
+  background:linear-gradient(135deg,rgba(55,8,11,.55),rgba(15,15,15,.88)) !important;
+  border:1px solid rgba(227,38,46,.48) !important; border-left:4px solid #e3262e !important;
+}
+.case-alert-head{
+  display:flex;align-items:center;gap:9px;color:#ff4b52;font-size:.82rem;
+  letter-spacing:1.2px;
+}
+.case-status{
+  width:7px;height:7px;margin-left:auto;border-radius:50%;background:#e3262e;
+  box-shadow:0 0 10px #e3262e;animation:pulse 1.4s infinite;
+}
+.case-alert p{margin:9px 0 0;color:#d2d2d2;line-height:1.55;}
+.case-evidence-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+  max-width:700px;margin:0 auto 18px;
+}
+.case-evidence{
+  padding:12px 10px;text-align:left;background:#0b0b0b !important;
+  border:1px solid #292929 !important;
+}
+.case-evidence .num{display:block;color:#e3262e;font-size:.68rem;font-weight:800;}
+.case-evidence strong{display:block;margin-top:3px;color:#eee;font-size:.76rem;}
+.case-evidence small{display:block;margin-top:3px;color:#888;font-size:.68rem;}
+.case-panel{
+  max-width:700px;margin:0 auto 18px;padding:17px 20px;text-align:left;
+  background:#0b0b0b !important;border:1px solid #292929 !important;
+}
+.case-panel-head{color:#ff4b52;font-size:.78rem;font-weight:800;letter-spacing:1.3px;margin-bottom:10px;}
+.case-panel p{margin:7px 0;color:#d6d6d6;}
+.case-mission{
+  display:flex;align-items:center;gap:12px;max-width:700px;margin:0 auto 20px;
+  padding:13px 16px;text-align:left;border:1px solid #7f0d13 !important;
+  background:rgba(227,38,46,.055) !important;
+}
+.case-mission > span{font-size:1.45rem;}
+.case-mission strong{color:#ff4b52;font-size:.8rem;letter-spacing:1.2px;}
+.case-mission p{margin:3px 0 0;color:#aaa;font-size:.8rem;}
+.case-equation{
+  max-width:700px;margin:16px auto;padding:22px;text-align:center;
+  background:#070707 !important;border:1px solid #292929 !important;
+  border-left:3px solid #e3262e !important;border-radius:4px;
+  font-size:clamp(1.35rem,3vw,2rem);color:#fff;
+}
+.case-question{
+  max-width:700px;margin:0 auto 12px;color:#ff4b52 !important;
+  font-size:.78rem;font-weight:800;letter-spacing:1.2px;
+}
+.case-options{max-width:700px;margin:0 auto;display:grid;gap:10px;grid-template-columns:repeat(2,1fr);}
+.case-options .option{
+  background:#0d0d0d !important;border:1px solid #333 !important;
+  border-radius:4px !important;padding:14px;text-align:left;color:#eee !important;
+}
+.case-options .option:hover{background:#171010 !important;border-color:#e3262e !important;transform:translateX(2px);}
+.case-options .option.correct{background:rgba(227,38,46,.14) !important;border-color:#e3262e !important;}
+.case-options .option.wrong{background:#19090b !important;border-color:#8f1117 !important;}
+.case-feedback{
+  max-width:700px;margin:16px auto 12px;padding:12px 14px;
+  background:#0d0d0d !important;border:1px solid #292929 !important;
+  border-left:3px solid #7f0d13 !important;color:#ddd;
+}
+.case-progress{
+  max-width:700px;margin:0 auto 18px;display:flex;gap:7px;
+}
+.case-progress .dot{height:5px;background:#242424 !important;border-radius:0;}
+.case-progress .dot.done{background:#e3262e !important;}
+.case-result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:700px;margin:0 auto 18px;}
+.case-result{
+  padding:16px;text-align:center;background:#0b0b0b;border:1px solid #292929;
+}
+.case-result .big{font-size:2.1rem;color:#ff4b52;}
+.case-lock{
+  max-width:700px;margin:0 auto 18px;padding:18px 20px;
+  background:#0b0b0b !important;border:1px solid #7f0d13 !important;
+  border-left:4px solid #e3262e !important;text-align:left;
+}
+.case-lock h3{margin-top:0;color:#ff4b52 !important;}
+.case-lock .case-equation{margin:14px 0;}
+.case-input{max-width:700px;margin:0 auto;}
+.case-input input{background:#080808 !important;border:1px solid #444 !important;border-radius:4px;}
+.case-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:12px;}
+.case-actions .secondary{background:#0d0d0d !important;border:1px solid #444 !important;color:#ddd !important;}
+.case-note{color:#666 !important;font-size:.68rem !important;letter-spacing:.7px;text-align:center;}
+.case-screen.active .case-card{animation:aparecer .6s ease-out both;}
+.case-screen.active .case-label{animation:aparecer .45s .05s ease-out both;}
+.case-screen.active .case-alert{animation:subir .55s .12s ease-out both;}
+.case-screen.active .case-evidence-grid,
+.case-screen.active .case-panel,
+.case-screen.active .case-mission,
+.case-screen.active .case-lock{animation:subir .55s .2s ease-out both;}
+.case-screen.active .case-equation{animation:aparecer .45s .18s ease-out both;}
+@media(max-width:620px){
+ .case-screen .case-card{padding:25px 18px;}
+ .case-evidence-grid,.case-options,.case-result-grid{grid-template-columns:1fr;}
+ .case-topline{font-size:.58rem;}
+}
+</style>
+
+
+<style id="expediente-unificado">
+:root{
+  --red:#ff2028;
+  --red2:#b90f17;
+  --red3:#5e080d;
+  --black:#030303;
+  --panel:#090909;
+  --paper:#d7d7d7;
+  --muted:#8c8c8c;
+}
+html,body{
+  background:#020202 !important;
+  color:var(--paper) !important;
+}
+body{
+  font-family:"Courier New",Consolas,monospace !important;
+  overflow-x:hidden;
+  position:relative;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:999;
+  opacity:.10;
+  background:
+    repeating-linear-gradient(0deg,transparent 0,transparent 3px,rgba(255,255,255,.12) 4px),
+    radial-gradient(circle at 20% 30%,rgba(255,0,0,.12),transparent 28%),
+    radial-gradient(circle at 80% 70%,rgba(255,0,0,.08),transparent 30%);
+  mix-blend-mode:screen;
+}
+.screen{
+  position:relative;
+  min-height:100vh !important;
+  padding:34px 22px !important;
+  background:
+    linear-gradient(rgba(255,0,0,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,0,0,.018) 1px,transparent 1px),
+    #030303 !important;
+  background-size:38px 38px,38px 38px,auto !important;
+}
+.screen:after{
+  content:"CASO #026  //  ARCHIVO CONFIDENCIAL  //  INVESTIGACIÓN";
+  position:absolute;
+  top:14px;
+  left:22px;
+  right:22px;
+  color:#d8141d;
+  font-size:10px;
+  letter-spacing:2px;
+  border-bottom:1px solid #5e080d;
+  padding-bottom:8px;
+  text-align:left;
+  opacity:.9;
+}
+.case-card{
+  width:min(1050px,96vw) !important;
+  background:
+    linear-gradient(135deg,rgba(255,20,30,.035),transparent 35%),
+    #050505 !important;
+  border:1px solid #7d1016 !important;
+  border-radius:0 !important;
+  box-shadow:0 0 0 1px #210306,0 0 38px rgba(255,0,0,.10),inset 0 0 35px rgba(255,0,0,.025) !important;
+  position:relative;
+  overflow:hidden;
+}
+.case-card:before,.case-card:after{
+  content:"";
+  position:absolute;
+  background:var(--red);
+  z-index:3;
+}
+.case-card:before{width:42px;height:2px;top:10px;left:10px;box-shadow:0 7px 0 #5e080d;}
+.case-card:after{width:2px;height:42px;top:10px;right:10px;box-shadow:-7px 0 0 #5e080d;}
+.case-content{padding:34px !important;}
+.case-topline{
+  color:#f1262e !important;
+  border-bottom:1px solid #5e080d !important;
+  padding-bottom:12px !important;
+  letter-spacing:1.5px;
+  font-size:.78rem !important;
+}
+.case-topline span:last-child{color:#9d9d9d !important;}
+.case-alarm{
+  height:7px !important;
+  margin:13px 0 25px !important;
+  background:repeating-linear-gradient(135deg,#ff2028 0 9px,transparent 9px 18px) !important;
+  opacity:.8;
+}
+.case-label{
+  color:#ff2028 !important;
+  font-size:.72rem !important;
+  letter-spacing:2px !important;
+  border-left:3px solid var(--red);
+  padding-left:10px;
+}
+.case-title{
+  color:#eee !important;
+  font-family:Impact,"Arial Black",sans-serif !important;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  text-shadow:0 0 16px rgba(255,0,0,.18);
+}
+.case-title span{color:var(--red) !important;}
+.case-subtitle{
+  color:#8f8f8f !important;
+  letter-spacing:1px;
+}
+.case-alert,.case-panel,.case-lock,.case-mission,.case-evidence,.case-result{
+  background:#070707 !important;
+  border:1px solid #661016 !important;
+  border-radius:0 !important;
+  box-shadow:inset 0 0 20px rgba(255,0,0,.025) !important;
+}
+.case-alert{border-left:4px solid var(--red) !important;}
+.case-alert-head,.case-panel-head{
+  color:#ff2028 !important;
+  letter-spacing:1px;
+}
+.case-alert p,.case-panel p,.case-mission p,.case-note{
+  color:#bcbcbc !important;
+}
+.case-status{
+  background:var(--red) !important;
+  box-shadow:0 0 10px var(--red);
+}
+.case-progress .dot{
+  background:#222 !important;
+  border:1px solid #5e080d !important;
+}
+.case-progress .dot.done{
+  background:var(--red) !important;
+  box-shadow:0 0 10px rgba(255,32,40,.6);
+}
+.case-question{
+  color:#eee !important;
+  border-bottom:1px solid #5e080d !important;
+}
+.case-equation{
+  background:#020202 !important;
+  border:1px solid #8d131a !important;
+  color:#f2f2f2 !important;
+  border-radius:0 !important;
+  box-shadow:inset 0 0 20px rgba(255,0,0,.04);
+}
+.case-options .option,.option{
+  background:#080808 !important;
+  color:#ddd !important;
+  border:1px solid #5e080d !important;
+  border-radius:0 !important;
+}
+.case-options .option:hover,.option:hover{
+  border-color:var(--red) !important;
+  background:#160507 !important;
+  transform:translateX(3px);
+}
+.case-options .option.selected,.case-options .option.correct{
+  background:#30080b !important;
+  border-color:var(--red) !important;
+}
+.case-input,input{
+  background:#050505 !important;
+  color:#eee !important;
+  border:1px solid #651017 !important;
+  border-radius:0 !important;
+}
+.btn{
+  background:#120203 !important;
+  color:#ff3038 !important;
+  border:1px solid var(--red) !important;
+  border-radius:0 !important;
+  box-shadow:0 0 14px rgba(255,0,0,.12),inset 0 0 12px rgba(255,0,0,.04) !important;
+  text-transform:uppercase;
+  letter-spacing:.6px;
+}
+.btn:hover{
+  background:#3b080d !important;
+  color:#fff !important;
+  box-shadow:0 0 22px rgba(255,0,0,.25) !important;
+}
+.btn.secondary{
+  background:#060606 !important;
+  border-color:#641017 !important;
+  color:#999 !important;
+}
+.hint{
+  background:#080808 !important;
+  border:1px solid #5e080d !important;
+  border-left:3px solid var(--red) !important;
+  color:#aaa !important;
+  border-radius:0 !important;
+}
+.case-feedback{
+  background:#070707 !important;
+  border:1px solid #5e080d !important;
+  color:#ddd !important;
+  border-radius:0 !important;
+}
+.case-feedback.success,.success{
+  color:#ff343b !important;
+}
+.case-mission{
+  border-left:4px solid var(--red) !important;
+}
+.case-mission strong{color:#ff2028 !important;}
+.case-evidence-grid{
+  gap:12px !important;
+}
+.case-evidence{
+  position:relative;
+  border-color:#5e080d !important;
+}
+.case-evidence:before{
+  content:"EVIDENCIA";
+  display:block;
+  color:#711016;
+  font-size:9px;
+  letter-spacing:1px;
+  margin-bottom:7px;
+}
+.case-evidence .num{color:var(--red) !important;}
+.case-result .big{color:var(--red) !important;}
+.case-lock{
+  border-color:#8a151c !important;
+}
+.case-lock.locked{
+  opacity:1 !important;
+}
+.case-lock h3{color:#ff2028 !important;}
+.file-icon{
+  filter:grayscale(.2) saturate(1.5) drop-shadow(0 0 12px rgba(255,0,0,.25));
+}
+#ganaste .case-card{
+  border-color:#c11720 !important;
+  box-shadow:0 0 0 1px #320407,0 0 50px rgba(255,0,0,.16),inset 0 0 45px rgba(255,0,0,.04) !important;
+}
+#ganaste .case-title{
+  font-size:clamp(3rem,8vw,6rem) !important;
+  line-height:.95;
+  border-top:1px solid #8d131a;
+  border-bottom:1px solid #8d131a;
+  padding:22px 10px !important;
+  margin:15px 0 !important;
+}
+#ganaste .case-alert{
+  margin-top:25px;
+}
+#ganaste .case-mission{
+  margin-top:24px;
+  padding:22px !important;
+}
+#ganaste .success{
+  font-size:1.15rem !important;
+  padding:18px 0;
+  border-top:1px solid #5e080d;
+  border-bottom:1px solid #5e080d;
+}
+#ganaste .case-actions .btn{
+  min-width:240px;
+  padding:16px 28px;
+}
+#inicio .case-card{
+  box-shadow:0 0 0 1px #300407,0 0 55px rgba(255,0,0,.14),inset 0 0 40px rgba(255,0,0,.035) !important;
+}
+@media(max-width:700px){
+  .screen{padding:28px 10px !important;}
+  .screen:after{left:10px;right:10px;font-size:8px;}
+  .case-content{padding:22px 16px !important;}
+  .case-evidence-grid,.case-result-grid{grid-template-columns:1fr !important;}
+}
+</style>
+
+
+<style id="victory-exact-style">
+#ganaste .case-title{letter-spacing:1px;}
+#ganaste .case-subtitle{font-style:italic;text-transform:none;}
+#ganaste .case-mission{margin:26px auto;padding:24px;max-width:850px;text-align:left;}
+#ganaste .case-mission strong{font-size:1.45rem;text-transform:uppercase;color:#ff2028;}
+#ganaste .case-mission p{margin:12px 0 0;}
+#ganaste .case-mission p strong{font-size:1rem;text-transform:none;color:#eee;}
+#ganaste .success{margin:22px 0;border-top:1px solid #5e080d;border-bottom:1px solid #5e080d;padding:14px;}
+#ganaste .case-actions .btn{text-transform:none;}
+</style>
+<style id="victory-screen-style">
+#ganaste{min-height:100vh!important;display:none;align-items:center;justify-content:center;background:linear-gradient(rgba(255,0,0,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,0,0,.018) 1px,transparent 1px),#030303!important;background-size:38px 38px!important}
+#ganaste.active{display:flex!important;animation:victoryIn .7s ease both}
+@keyframes victoryIn{from{opacity:0;transform:scale(.97);filter:brightness(.35)}to{opacity:1;transform:scale(1);filter:brightness(1)}}
+#ganaste .case-card{border:1px solid #b5161e!important;border-radius:0!important;background:#050505!important;box-shadow:0 0 45px rgba(255,0,0,.14),inset 0 0 35px rgba(255,0,0,.035)!important}
+#ganaste .case-title{color:#f0f0f0!important;text-shadow:0 0 18px rgba(255,0,0,.2)}
+#ganaste .case-title span,#ganaste .success{color:#ff2028!important}
+#ganaste .btn{border-radius:0!important;border-color:#ff2028!important;background:#100203!important;color:#ff3038!important}
+</style>
+<style id="victory-real-css">
+#ganaste{
+  display:none !important;
+  min-height:100vh !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:#030303 !important;
+}
+#ganaste.active{
+  display:flex !important;
+  animation:victoryReveal .75s ease both !important;
+}
+#ganaste .case-card{
+  width:min(900px,94vw) !important;
+  background:#050505 !important;
+  border:1px solid #ff2028 !important;
+  border-radius:0 !important;
+  box-shadow:0 0 55px rgba(255,0,0,.16), inset 0 0 35px rgba(255,0,0,.04) !important;
+}
+#ganaste .case-title{
+  color:#eee !important;
+  font-family:Impact,"Arial Black",sans-serif !important;
+  font-size:clamp(3.2rem,9vw,6.5rem) !important;
+  letter-spacing:2px !important;
+}
+#ganaste .case-title span{color:#ff2028 !important;}
+#ganaste .case-subtitle,#ganaste .case-mission p{color:#aaa !important;}
+#ganaste .case-mission{
+  background:#080808 !important;
+  border:1px solid #651017 !important;
+  border-left:4px solid #ff2028 !important;
+  border-radius:0 !important;
+}
+#ganaste .case-mission strong{color:#ff2028 !important;}
+#ganaste .success{color:#ff2028 !important;}
+#ganaste .btn{
+  background:#100203 !important;
+  color:#ff3038 !important;
+  border:1px solid #ff2028 !important;
+  border-radius:0 !important;
+}
+@keyframes victoryReveal{
+  from{opacity:0;transform:scale(.96);filter:brightness(.3);}
+  to{opacity:1;transform:scale(1);filter:brightness(1);}
+}
+</style>
 </head>
 <body>
 
 <section id="inicio" class="screen active">
-  <div class="card cover">
-    <div class="music">🎼</div>
-    <p class="subtitle"><strong>🎼 EL ENIGMA DE LA PARTITURA PERDIDA</strong></p>
-    <h1>El Enigma de la<br>Partitura Perdida</h1>
-    <p class="subtitle">Un juego de matemáticas y música</p>
-
-    <p><strong>Proyecto de matemáticas 🎵</strong></p>
-
-    <p>
-      Ayer pasó algo raro en el conservatorio...
-      Una de las partituras más importantes <strong>desapareció</strong> y nadie sabe dónde está.
-    </p>
-
-    <p>
-      Antes de irse, el compositor alcanzó a dejar un mensaje:
-    </p>
-
-    <div class="secret">
-      <p><em>“La melodía está escondida entre números.<br>
-      Solo quien comprenda los patrones podrá encontrarla.”</em></p>
+  <div class="card cover intro-card">
+    <div class="top-secret">
+      <span>● SISTEMA DE INVESTIGACIÓN</span>
+      <span>CASO #026</span>
     </div>
 
-    <p>
-      Cada parte de la melodía quedó protegida con
-      <strong>retos matemáticos</strong>. Para avanzar tendrás que demostrar que
-      sabes reconocer y resolver <strong>productos y cocientes notables</strong>.
-    </p>
+    <div class="alarm-line"></div>
 
-    <h3>🎯 TU MISIÓN</h3>
-    <p>
-      🔎 Encuentra las pistas.<br>
-      🎵 Recupera las notas.<br>
-      🎼 Arma la melodía.<br>
-      🔐 Encuentra el código.
-    </p>
+    <div class="file-icon">📁</div>
+    <p class="classified">ARCHIVO CONFIDENCIAL</p>
 
-    <p><strong>¿Listo? La partitura te está esperando 👀</strong></p>
+    <h1>EL ENIGMA DE LA<br><span>PARTITURA PERDIDA</span></h1>
+    <p class="subtitle">EXPEDIENTE DE INVESTIGACIÓN · 2026</p>
 
-    <button class="btn" onclick="mostrar('nivel1')">🎵 EMPEZAR</button>
+    <div class="alert-card">
+      <div class="alert-header">
+        <span>🚨</span>
+        <strong>CASO ABIERTO</strong>
+        <span class="status-dot"></span>
+      </div>
+      <p>
+        Una partitura original ha desaparecido del archivo musical del
+        conservatorio. La puerta estaba intacta. No hay una explicación clara.
+      </p>
+    </div>
+
+    <div class="evidence-row">
+      <div class="mini-evidence">
+        <span>01</span>
+        <strong>ESCENA</strong>
+        <small>Archivo musical</small>
+      </div>
+      <div class="mini-evidence">
+        <span>02</span>
+        <strong>EVIDENCIA</strong>
+        <small>Hoja matemática</small>
+      </div>
+      <div class="mini-evidence">
+        <span>03</span>
+        <strong>OBJETIVO</strong>
+        <small>Recuperar la partitura</small>
+      </div>
+    </div>
+
+    <div class="quote-box">
+      <div class="quote-mark">“</div>
+      <p>La melodía no está perdida.<br><strong>Está escondida entre números.</strong></p>
+      <small>— Mensaje encontrado en la escena</small>
+    </div>
+
+    <div class="mission-banner">
+      <span>🕵️</span>
+      <div>
+        <strong>TU MISIÓN</strong>
+        <p>Resolver las pistas · recuperar las notas · abrir la caja</p>
+      </div>
+    </div>
+
+    <button class="btn start-btn" onclick="mostrar('nivel1')">
+      <span>▶</span> INICIAR INVESTIGACIÓN
+    </button>
+
+    <p class="access-note">⚠ Acceso autorizado · La investigación comienza ahora</p>
   </div>
 </section>
 
-<section id="nivel1" class="screen">
-  <div class="card">
-    <div class="progress">
-      <div class="dot done"></div><div class="dot"></div><div class="dot"></div>
-    </div>
-    <h2>🔐 Nivel 1 — Cocientes secretos</h2>
-    <p>
-      El compositor dejó tres expresiones escondidas. Reconoce el cociente notable
-      y elige su expresión simplificada.
-    </p>
-    <div id="reto"></div>
-    <div id="feedback" class="feedback">Escoge una respuesta.</div>
-    <button id="nextBtn" class="btn locked" onclick="siguienteReto()">➡️ Siguiente</button>
-    <button class="btn secondary" onclick="mostrar('inicio')">Volver</button>
-  </div>
-</section>
+<section id="nivel1" class="screen case-screen">
+  <div class="case-card">
+    <div class="case-content">
+      <div class="case-topline"><span>● SISTEMA DE INVESTIGACIÓN</span><span>CASO #026 · FASE 01</span></div>
+      <div class="case-alarm"></div>
+      <p class="case-label">EVIDENCIA MATEMÁTICA</p>
+      <h2 class="case-title">NIVEL 1 — <span>COCIENTES SECRETOS</span></h2>
+      <p class="case-subtitle">ANÁLISIS DE LA HOJA ENCONTRADA · ARCHIVO MUSICAL</p>
 
-<section id="resultados" class="screen">
-  <div class="card">
-    <div class="progress">
-      <div class="dot done"></div><div class="dot done"></div><div class="dot"></div>
-    </div>
-    <h2>🎵 ¡Ya tienes los números!</h2>
-    <p>
-      Ahora toca evaluar las expresiones usando <strong>x = 3</strong>.
-      Con estos resultados podemos recuperar las figuras musicales.
-    </p>
-    <div class="result-grid">
-      <div class="result"><div>Nota A</div><div class="big">6</div><div>x + 3</div></div>
-      <div class="result"><div>Nota B</div><div class="big">19</div><div>x² + 2x + 4</div></div>
-      <div class="result"><div>Nota C</div><div class="big">2</div><div>x − 1</div></div>
-    </div>
-    <div class="secret">
-      <h3>🗝️ Una pista más</h3>
-      <p>“Los números no son el final. Ahora piensa en música.”</p>
-      <button class="btn" onclick="mostrar('nivel2')">🎼 SEGUIR</button>
-    </div>
-  </div>
-</section>
+      <div class="case-alert">
+        <div class="case-alert-head"><span>🚨</span><strong>PISTA RECUPERADA</strong><span class="case-status"></span></div>
+        <p>El compositor dejó tres expresiones escondidas. Reconoce el cociente notable y elige su expresión simplificada.</p>
+      </div>
 
-<section id="nivel2" class="screen">
-  <div class="card">
-    <div class="progress">
-      <div class="dot done"></div><div class="dot done"></div><div class="dot done"></div>
-    </div>
-    <h2>🎼 Nivel 2 — Figuras musicales</h2>
-    <p>
-      Relaciona el resultado con la figura musical que corresponde.
-      Ojo: el número obtenido no es directamente la cantidad de tiempos.
-    </p>
-    <div class="equation">6 &nbsp; → &nbsp; ¿qué figura musical?</div>
-    <div class="options">
-      <button class="option" onclick="figura(this,false)">🎵 Corchea — 0,5 tiempos</button>
-      <button class="option" onclick="figura(this,true)">♩ Negra — 1 tiempo</button>
-      <button class="option" onclick="figura(this,false)">𝅗𝅥 Blanca — 2 tiempos</button>
-      <button class="option" onclick="figura(this,false)">𝅝 Redonda — 4 tiempos</button>
-    </div>
-    <div id="figFeedback" class="feedback">Escoge una opción.</div>
-    <div id="continuar2" class="secret locked">
-      <p class="success"><strong>¡Figura recuperada! 🎉</strong></p>
-      <p>Ya falta poco. Ahora podemos seguir con la melodía.</p>
-      <button class="btn" onclick="mostrar('final')">🔓 SEGUIR</button>
+      <div class="case-panel">
+        <div class="case-panel-head">● PROGRESO DEL EXPEDIENTE</div>
+        <div class="case-progress">
+          <div class="dot done"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div id="reto"></div>
+      </div>
+
+      <div id="feedback" class="case-feedback">Escoge una respuesta.</div>
+      <div class="case-actions">
+        <button id="nextBtn" class="btn locked" onclick="siguienteReto()">➡️ SIGUIENTE PISTA</button>
+        <button class="btn secondary" onclick="mostrar('inicio')">↩ VOLVER AL INICIO</button>
+      </div>
+      <p class="case-note">⚠ Cada respuesta correcta desbloquea una parte del expediente.</p>
     </div>
   </div>
 </section>
 
-<section id="final" class="screen">
-  <div class="card cover">
-    <div class="music">🔐🎼</div>
-    <h2>El candado final</h2>
-    <p>
-      Ya recuperaste parte de la partitura. Solo falta descubrir el código final.
-    </p>
+<section id="resultados" class="screen case-screen">
+  <div class="case-card">
+    <div class="case-content">
+      <div class="case-topline"><span>● SISTEMA DE INVESTIGACIÓN</span><span>CASO #026 · FASE 02</span></div>
+      <div class="case-alarm"></div>
+      <p class="case-label">REGISTRO DE RESULTADOS</p>
+      <h2 class="case-title">NÚMEROS <span>RECUPERADOS</span></h2>
+      <p class="case-subtitle">TRADUCCIÓN DE LAS EXPRESIONES · ARCHIVO MUSICAL</p>
 
-    <div class="secret" style="text-align:left;">
-      <h3>🧩 Última pista</h3>
-      <p>El código está escondido en <strong>dos productos notables</strong>. No te vamos a dar el resultado: tendrás que descubrirlo.</p>
+      <div class="case-alert">
+        <div class="case-alert-head"><span>🔎</span><strong>DATOS CONFIRMADOS</strong><span class="case-status"></span></div>
+        <p>Ahora toca evaluar las expresiones usando <strong>x = 3</strong>. Con estos resultados podemos recuperar las figuras musicales.</p>
+      </div>
 
-      <p><strong>🔎 Pista 1</strong></p>
-      <p>Busca en los retos anteriores la expresión <strong>(x + 3)²</strong>.</p>
-      <p>Recuerda la fórmula del <strong>cuadrado de un binomio</strong>:</p>
-      <div class="equation">(a + b)² = a² + 2ab + b²</div>
-      <p>Desarrolla la expresión y fíjate especialmente en el <strong>término que queda solo, sin x</strong>. Ese número te dará la primera cifra.</p>
+      <div class="case-evidence-grid">
+        <div class="case-evidence"><span class="num">01</span><strong>NOTA A</strong><small>x + 3 → 6</small></div>
+        <div class="case-evidence"><span class="num">02</span><strong>NOTA B</strong><small>x² + 2x + 4 → 19</small></div>
+        <div class="case-evidence"><span class="num">03</span><strong>NOTA C</strong><small>x − 1 → 2</small></div>
+      </div>
 
-      <p><strong>🔎 Pista 2</strong></p>
-      <p>Ahora busca la expresión <strong>(x + 5)(x − 5)</strong>.</p>
-      <p>Recuerda la fórmula de <strong>suma por diferencia</strong>:</p>
-      <div class="equation">(a + b)(a − b) = a² − b²</div>
-      <p>Desarrolla la expresión y observa el número que aparece al final. <strong>No necesitas usar x</strong>: piensa en qué número está elevado al cuadrado.</p>
+      <div class="case-result-grid">
+        <div class="case-result"><div>Nota A</div><div class="big">6</div><div>x + 3</div></div>
+        <div class="case-result"><div>Nota B</div><div class="big">19</div><div>x² + 2x + 4</div></div>
+        <div class="case-result"><div>Nota C</div><div class="big">2</div><div>x − 1</div></div>
+      </div>
 
-      <p><strong>🔐 Para formar el código</strong></p>
-      <p>Ya tienes dos pistas. La primera te da la <strong>primera cifra</strong> y la segunda te da la <strong>segunda cifra</strong>.</p>
-      <div class="equation" style="font-size:2rem;">[ primera cifra ] [ segunda cifra ]</div>
-      <p class="small">💡 Si te atascaste, vuelve a aplicar las dos fórmulas con calma. El código tiene solamente <strong>2 cifras</strong>.</p>
+      <div class="case-mission">
+        <span>🕵️</span><div><strong>PRÓXIMO OBJETIVO</strong><p>Convertir los números recuperados en figuras musicales.</p></div>
+      </div>
+
+      <div class="case-actions">
+        <button class="btn" onclick="mostrar('nivel2')">🎼 CONTINUAR INVESTIGACIÓN</button>
+      </div>
     </div>
-    <input id="codigo" type="text" inputmode="numeric" maxlength="2" placeholder="Escribe el código aquí">
-    <button class="btn" onclick="comprobarCodigo()">🔓 ABRIR CAJA</button>
-    <div id="codeFeedback" class="feedback">Escribe el código para probar.</div>
+  </div>
+</section>
+
+<section id="nivel2" class="screen case-screen">
+  <div class="case-card">
+    <div class="case-content">
+      <div class="case-topline"><span>● SISTEMA DE INVESTIGACIÓN</span><span>CASO #026 · FASE 03</span></div>
+      <div class="case-alarm"></div>
+      <p class="case-label">EVIDENCIA MUSICAL</p>
+      <h2 class="case-title">NIVEL 2 — <span>FIGURAS MUSICALES</span></h2>
+      <p class="case-subtitle">RELACIÓN ENTRE LOS RESULTADOS Y LA PARTITURA</p>
+
+      <div class="case-alert">
+        <div class="case-alert-head"><span>🎼</span><strong>TRADUCCIÓN DE EVIDENCIA</strong><span class="case-status"></span></div>
+        <p>Relaciona el resultado con la figura musical que corresponde. Ojo: el número obtenido no es directamente la cantidad de tiempos.</p>
+      </div>
+
+      <div class="case-panel">
+        <div class="case-question">● PRUEBA MUSICAL · RESULTADO RECUPERADO</div>
+        <div class="case-equation">6 &nbsp; → &nbsp; ¿QUÉ FIGURA MUSICAL?</div>
+        <div class="case-options">
+          <button class="option" onclick="figura(this,false)">🎵 Corchea — 0,5 tiempos</button>
+          <button class="option" onclick="figura(this,true)">♩ Negra — 1 tiempo</button>
+          <button class="option" onclick="figura(this,false)">𝅗𝅥 Blanca — 2 tiempos</button>
+          <button class="option" onclick="figura(this,false)">𝅝 Redonda — 4 tiempos</button>
+        </div>
+      </div>
+
+      <div id="figFeedback" class="case-feedback">Escoge una opción.</div>
+      <div id="continuar2" class="case-lock locked">
+        <h3>🔎 EVIDENCIA CONFIRMADA</h3>
+        <p class="success"><strong>¡Figura recuperada! 🎉</strong></p>
+        <p>Ya falta poco. Ahora podemos seguir con la melodía.</p>
+        <div class="case-actions"><button class="btn" onclick="mostrar('final')">🔓 SEGUIR CON EL EXPEDIENTE</button></div>
+      </div>
+      <p class="case-note">⚠ La respuesta correcta desbloquea la última fase del caso.</p>
+    </div>
+  </div>
+</section>
+
+<section id="final" class="screen case-screen">
+  <div class="case-card">
+    <div class="case-content">
+      <div class="case-topline"><span>● SISTEMA DE INVESTIGACIÓN</span><span>CASO #026 · FASE FINAL</span></div>
+      <div class="case-alarm"></div>
+      <p class="case-label">ACCESO RESTRINGIDO</p>
+      <h2 class="case-title">EL <span>CANDADO FINAL</span></h2>
+      <p class="case-subtitle">ÚLTIMA EVIDENCIA · CÓDIGO DE LA CAJA</p>
+
+      <div class="case-alert">
+        <div class="case-alert-head"><span>🔐</span><strong>CAJA ASEGURADA</strong><span class="case-status"></span></div>
+        <p>Ya recuperaste parte de la partitura. Solo falta descubrir el código final.</p>
+      </div>
+
+      <div class="case-lock">
+        <h3>🧩 ÚLTIMA PISTA</h3>
+        <p>El código está escondido en <strong>dos productos notables</strong>. No te vamos a dar el resultado: tendrás que descubrirlo.</p>
+
+        <div class="case-panel">
+          <div class="case-panel-head">🔎 PISTA 1 · PRIMERA CIFRA</div>
+          <p>Busca en los retos anteriores la expresión <strong>(x + 3)²</strong>.</p>
+          <p>Recuerda la fórmula del <strong>cuadrado de un binomio</strong>:</p>
+          <div class="case-equation">(a + b)² = a² + 2ab + b²</div>
+          <p>Desarrolla la expresión y fíjate especialmente en el <strong>término que queda solo, sin x</strong>. Ese número te dará la primera cifra.</p>
+        </div>
+
+        <div class="case-panel">
+          <div class="case-panel-head">🔎 PISTA 2 · SEGUNDA CIFRA</div>
+          <p>Ahora busca la expresión <strong>(x + 5)(x − 5)</strong>.</p>
+          <p>Recuerda la fórmula de <strong>suma por diferencia</strong>:</p>
+          <div class="case-equation">(a + b)(a − b) = a² − b²</div>
+          <p>Desarrolla la expresión y observa el número que aparece al final. <strong>No necesitas usar x</strong>: piensa en qué número está elevado al cuadrado.</p>
+        </div>
+
+        <div class="case-mission">
+          <span>🔐</span><div><strong>FORMAR EL CÓDIGO</strong><p>La primera pista da la primera cifra y la segunda da la segunda cifra.</p></div>
+        </div>
+        <div class="case-equation">[ primera cifra ] [ segunda cifra ]</div>
+        <p class="case-note">💡 El código tiene solamente <strong>2 cifras</strong>.</p>
+      </div>
+
+      <div class="case-input">
+        <input id="codigo" type="text" inputmode="numeric" maxlength="2" placeholder="ESCRIBE EL CÓDIGO AQUÍ">
+      </div>
+      <div class="case-actions">
+        <button class="btn" onclick="comprobarCodigo()">🔓 ABRIR CAJA</button>
+      </div>
+      <div id="codeFeedback" class="case-feedback">Escribe el código para probar.</div>
+    </div>
   </div>
 </section>
 
 
-<section id="ganaste" class="screen">
-  <div class="card cover">
-    <div class="music">🎉🎼🔓</div>
-    <h1>¡GANASTE!</h1>
-    <p class="subtitle">La partitura perdida ha sido recuperada.</p>
-    <div class="secret">
-      <h2>🎵 ¡Misterio resuelto!</h2>
-      <p>Lograste superar los retos, seguir las pistas y descubrir el código de la caja fuerte.</p>
-      <p><strong>La melodía vuelve a estar completa. 🎶</strong></p>
+<section id="ganaste" class="screen case-screen">
+  <div class="case-card">
+    <div class="case-content" style="text-align:center;">
+      <div class="case-topline"><span>● SISTEMA DE INVESTIGACIÓN</span><span>CASO #026 · CERRADO</span></div>
+      <div class="case-alarm"></div>
+      <p class="case-label">EXPEDIENTE RESUELTO</p>
+      <div class="file-icon" style="font-size:3.4rem;">🎉🎼🔓</div>
+
+      <h1 class="case-title">¡<span>GANASTE!</span></h1>
+      <p class="case-subtitle">La partitura perdida ha sido recuperada.</p>
+
+      <div class="case-mission">
+        <span>🎵</span>
+        <div>
+          <strong>¡Misterio resuelto!</strong>
+          <p>Lograste superar los retos, seguir las pistas y descubrir el código de la caja fuerte.</p>
+          <p><strong>La melodía vuelve a estar completa. 🎶</strong></p>
+        </div>
+      </div>
+
+      <p class="success"><strong>🏆 ¡Felicidades, detective!</strong></p>
+
+      <div class="case-actions">
+        <button class="btn" onclick="mostrar('inicio')">🔄 Jugar de nuevo</button>
+      </div>
     </div>
-    <p class="success"><strong>🏆 ¡Felicidades, detective!</strong></p>
-    <button class="btn" onclick="mostrar('inicio')">🔄 Jugar de nuevo</button>
   </div>
 </section>
 
@@ -385,19 +1561,21 @@ let acertados = 0;
 
 function mostrar(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  const destino = document.getElementById(id);
+  destino.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
   if (id === 'nivel1') cargarReto();
 }
 
 function cargarReto() {
   const r = retos[actual];
   document.getElementById('reto').innerHTML = `
-    <p><strong>Reto ${actual + 1} de ${retos.length}</strong></p>
-    <div class="equation">${r.eq}</div>
-    <div class="options">
+    <div class="case-question">● RETO ${actual + 1} DE ${retos.length} · ANALIZA LA EVIDENCIA</div>
+    <div class="case-equation">${r.eq}</div>
+    <div class="case-options">
       ${r.opts.map((o,i)=>`<button class="option" onclick="responder(${i}, this)">${o}</button>`).join('')}
     </div>
-    <p class="hint">💡 Pista disponible: ${r.hint}</p>
+    <p class="hint" style="max-width:700px;margin:12px auto 0;background:#0d0d0d;border-left:2px solid #7f0d13;padding:10px;color:#aaa;">💡 PISTA DISPONIBLE: ${r.hint}</p>
   `;
   document.getElementById('feedback').textContent = 'Escoge una respuesta.';
   document.getElementById('nextBtn').classList.add('locked');
@@ -451,10 +1629,23 @@ function figura(btn, correcta) {
 function comprobarCodigo() {
   const codigo = document.getElementById('codigo').value.trim();
   const f = document.getElementById('codeFeedback');
+
   if (codigo === '95') {
     f.innerHTML = '🎉 <span class="success"><strong>¡CAJA ABIERTA! 🎉</strong> ¡Encontraste la partitura perdida! 🎼</span>';
     document.querySelector('#final .music').textContent = '🎉🎼🎉';
-    setTimeout(() => mostrar('ganaste'), 900);
+
+    setTimeout(() => {
+      // CAMBIO DE PANTALLA: ocultamos TODO el juego y mostramos SOLO la victoria.
+      document.querySelectorAll('.screen').forEach(s => {
+        s.classList.remove('active');
+        s.style.setProperty('display', 'none', 'important');
+      });
+
+      const victoria = document.getElementById('ganaste');
+      victoria.style.setProperty('display', 'flex', 'important');
+      victoria.classList.add('active');
+      window.scrollTo({top: 0, left: 0, behavior: 'instant'});
+    }, 1100);
   } else {
     f.innerHTML = '🔒 <span class="error"><strong>Ese código no es.</strong> Revisa las pistas e inténtalo otra vez.</span>';
   }
