@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Un blog estudiantil sobre productos y cocientes notables y algunas conexiones con la música." name="description"/>
+<title>El álgebra a través de la música | Mi blog</title>
+<style>
+:root{
+ --navy:#092d50;--blue:#1769aa;--blue2:#3b8bd6;--sky:#eaf5ff;--ice:#f6fbff;
+ --ink:#26384a;--muted:#61758a;--line:#d6e7f6;--white:#fff;--gold:#f2bd59;
+ --shadow:0 16px 44px rgba(9,45,80,.09);--radius:22px
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:var(--ice);color:var(--ink);font:16px/1.75 "Segoe UI",Arial,sans-serif}
+a{color:var(--blue)}
+.topline{height:5px;background:linear-gradient(90deg,var(--navy),var(--blue2),#8acbff)}
+header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{max-width:1180px;margin:auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:22px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--navy);font-weight:900;letter-spacing:.3px}
+.brand-icon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:var(--navy);color:white;font-size:22px;box-shadow:0 7px 18px #092d5028}
+.navlinks{display:flex;flex-wrap:wrap;gap:7px}
+.navlinks a{text-decoration:none;color:#3e5870;font-weight:700;font-size:13px;padding:8px 11px;border-radius:999px}
+.navlinks a:hover{background:var(--sky);color:var(--blue)}
+.hero{position:relative;overflow:hidden;background:linear-gradient(125deg,#082746 0%,#0b477e 58%,#227ac2 100%);color:white}
+.hero:before,.hero:after{content:"";position:absolute;border:1px solid #ffffff24;border-radius:50%;pointer-events:none}
+.hero:before{width:470px;height:470px;right:-100px;top:-190px}
+.hero:after{width:330px;height:330px;right:-30px;top:-120px}
+.hero-inner{max-width:1180px;margin:auto;padding:80px 24px 76px;position:relative;z-index:1;display:grid;grid-template-columns:1.3fr .7fr;gap:35px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid #ffffff55;background:#ffffff10;padding:7px 13px;border-radius:999px;text-transform:uppercase;letter-spacing:1.8px;font-size:11px;font-weight:800}
+h1{font-size:clamp(42px,5.5vw,70px);line-height:1.03;letter-spacing:-2px;margin:23px 0 20px;max-width:760px}
+.hero p{font-size:18px;max-width:680px;color:#e3f2ff;margin:0}
+.hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:27px}
+.pill{border:1px solid #ffffff42;border-radius:999px;padding:7px 12px;font-size:12px;color:#f1f8ff}
+.hero-art{min-height:290px;position:relative;display:grid;place-items:center}
+.orbit{width:275px;height:275px;border-radius:50%;border:1px solid #ffffff42;display:grid;place-items:center;position:relative;background:radial-gradient(circle,#ffffff14,transparent 65%)}
+.orbit:before,.orbit:after{content:"";position:absolute;border:1px dashed #ffffff50;border-radius:50%}
+.orbit:before{inset:25px}.orbit:after{inset:53px}
+.note{position:absolute;color:#fff;font-size:29px;filter:drop-shadow(0 4px 8px #001a35)}
+.note.n1{top:14px;left:52px}.note.n2{right:12px;top:82px}.note.n3{bottom:27px;left:29px}
+.formula-orb{z-index:1;width:168px;height:168px;border-radius:34px;transform:rotate(-4deg);background:#fff;color:var(--navy);display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:0 24px 55px #00182c66;border:5px solid #d7edff}
+.formula-orb strong{font-size:27px;letter-spacing:-1px}.formula-orb span{font-size:12px;color:var(--blue);font-weight:800;letter-spacing:2px;text-transform:uppercase}
+main{max-width:1180px;margin:auto;padding:34px 24px 75px}
+.quicknav{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:-65px;position:relative;z-index:2}
+.quick{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow);text-decoration:none;display:flex;gap:12px;align-items:center;color:var(--navy);transition:transform .2s}
+.quick:hover{transform:translateY(-4px)}
+.qicon{width:43px;height:43px;border-radius:13px;background:var(--sky);display:grid;place-items:center;font-size:21px;flex-shrink:0}
+.quick b{display:block;font-size:14px}.quick small{color:var(--muted);font-size:11px}
+.section-head{margin:64px 0 22px;display:flex;gap:20px;align-items:flex-end;justify-content:space-between}
+.section-head .mini{color:var(--blue);font-weight:900;text-transform:uppercase;font-size:11px;letter-spacing:2px}
+h2{font-size:clamp(27px,3vw,38px);line-height:1.2;letter-spacing:-.7px;color:var(--navy);margin:5px 0 10px}
+.section-head p{max-width:550px;color:var(--muted);margin:0;font-size:14px}
+.intro-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:20px}
+.panel{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:27px;box-shadow:0 7px 24px #092d5008}
+.panel p:first-child{margin-top:0}
+.quote-panel{background:linear-gradient(145deg,#e9f5ff,#fff);border:1px solid #cfe6fb}
+.quote-mark{font-size:36px;color:var(--blue);line-height:1}
+.fact-list{display:grid;gap:12px}
+.fact{display:flex;gap:12px;align-items:flex-start}
+.check{width:28px;height:28px;display:grid;place-items:center;flex-shrink:0;border-radius:9px;background:var(--sky);color:var(--blue);font-weight:900}
+.fact b{color:var(--navy)}
+.concept-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.concept{background:#fff;border:1px solid var(--line);border-radius:17px;padding:20px}
+.concept .symbol{font-size:24px;margin-bottom:7px}
+.concept h3{font-size:16px;color:var(--navy);margin:0 0 4px}
+.concept p{font-size:13px;color:var(--muted);margin:0}
+.formula-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.formula-card{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 8px 26px #092d5008}
+.formula-top{padding:22px 24px;background:linear-gradient(110deg,#e9f5ff,#f9fcff);border-bottom:1px solid var(--line)}
+.formula-number{font-size:11px;text-transform:uppercase;letter-spacing:1.6px;font-weight:900;color:var(--blue)}
+.formula-top h3{margin:5px 0 0;color:var(--navy);font-size:21px}
+.equation{margin:18px 0 8px;padding:17px 12px;background:var(--navy);color:white;border-radius:14px;text-align:center;font-size:clamp(19px,2.5vw,27px);font-weight:800;letter-spacing:.3px;line-height:1.5}
+.formula-body{padding:22px 24px}
+.formula-body p{margin:0 0 12px}
+.steps{list-style:none;padding:0;margin:12px 0 0;counter-reset:step}
+.steps li{counter-increment:step;display:flex;gap:11px;margin:10px 0;font-size:14px}
+.steps li:before{content:counter(step);background:var(--sky);color:var(--blue);width:26px;height:26px;display:grid;place-items:center;border-radius:9px;font-weight:900;flex-shrink:0}
+.result{border-left:4px solid var(--blue);background:#f0f8ff;padding:11px 14px;border-radius:0 10px 10px 0;font-weight:800;color:var(--navy);font-size:14px}
+.wide-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:0 8px 26px #092d5008;margin:18px 0}
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:14px}
+th{background:var(--navy);color:white;text-align:left;padding:13px}
+td{padding:13px;border-bottom:1px solid var(--line)}
+tr:nth-child(even) td{background:#f5faff}
+.music-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.music-card{border:1px solid var(--line);background:#fff;border-radius:20px;padding:23px;display:flex;gap:16px}
+.music-icon{width:52px;height:52px;flex-shrink:0;border-radius:16px;background:var(--sky);display:grid;place-items:center;font-size:25px}
+.music-card h3{margin:0 0 6px;color:var(--navy);font-size:18px}
+.music-card p{margin:0;color:#536b80;font-size:14px}
+.note-box{padding:18px 21px;background:#fff8e9;border:1px solid #f3dfb6;border-radius:15px;color:#6c5427;font-size:14px;margin-top:18px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.good,.bad{border-radius:18px;padding:22px;border:1px solid var(--line);background:#fff}
+.good h3{color:#1769aa;margin-top:0}.bad h3{color:#6b7890;margin-top:0}
+.good li,.bad li{margin:8px 0}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stage{padding:19px;background:white;border:1px solid var(--line);border-radius:17px;position:relative}
+.stage .num{font-size:12px;color:var(--blue);font-weight:900;letter-spacing:1px}
+.stage h3{font-size:15px;color:var(--navy);margin:7px 0}
+.stage p{font-size:13px;color:var(--muted);margin:0}
+.final-box{background:linear-gradient(130deg,var(--navy),#1769aa);color:white;border-radius:24px;padding:33px;position:relative;overflow:hidden}
+.final-box h2{color:white}.final-box p{color:#e5f3ff}
+.glossary{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.glossary div{padding:13px 15px;border:1px solid var(--line);background:white;border-radius:12px;font-size:14px}
+.glossary b{color:var(--blue)}
+.source-list li{margin:10px 0}
+footer{background:#061f38;color:#e8f4ff;padding:34px 24px;text-align:center}
+footer .footbrand{font-size:17px;font-weight:900;letter-spacing:1px}
+footer p{font-size:12px;color:#adc8e0;margin:6px}
+.backtop{display:inline-block;margin-top:10px;text-decoration:none;color:white;border:1px solid #ffffff55;padding:7px 13px;border-radius:99px;font-size:12px}
+.quiz{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px}
+.quiz h3{color:var(--navy);margin-top:0}
+.quiz-options{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+.quiz button{border:1px solid var(--line);border-radius:12px;padding:11px 15px;background:#f5faff;color:var(--navy);font-weight:700;cursor:pointer}
+.quiz button:hover{border-color:var(--blue);background:var(--sky)}
+#feedback{font-weight:800;margin-top:10px;min-height:24px}
+@media(max-width:850px){.hero-inner{grid-template-columns:1fr}.hero-art{display:none}.quicknav{grid-template-columns:repeat(2,1fr);margin-top:-35px}.intro-grid{grid-template-columns:1fr}.concept-grid{grid-template-columns:repeat(2,1fr)}.timeline{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.nav{align-items:flex-start;flex-direction:column;padding:12px 17px}.navlinks{gap:2px}.navlinks a{font-size:12px;padding:7px}.hero-inner{padding:55px 20px}.quicknav{gap:8px}.quick{padding:12px;gap:8px}.qicon{width:34px;height:34px;font-size:17px}.quick b{font-size:12px}.quick small{font-size:10px}main{padding:20px 15px 50px}.section-head{margin-top:45px;display:block}.formula-grid,.music-grid,.split,.glossary{grid-template-columns:1fr}.concept-grid{grid-template-columns:1fr}.timeline{grid-template-columns:1fr 1fr}.panel,.wide-card{padding:20px}.formula-body{padding:18px}.final-box{padding:24px}}
+@media print{header{position:static}.hero{print-color-adjust:exact;-webkit-print-color-adjust:exact}.quicknav{margin-top:20px}.quiz{display:none}body{background:white}.panel,.card,.formula-card{box-shadow:none}}
+
+/* Triángulo de Pascal: sección didáctica */
+.pascal-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch;margin:22px 0}
+.pascal-explainer,.pascal-visual,.pascal-steps,.pascal-music{padding:24px;border:1px solid #d6e7f6;border-radius:18px;background:#fff}
+.pascal-explainer h3,.pascal-visual h3,.pascal-steps h3,.pascal-music h3{margin-top:0;color:#082b4c}
+.pascal-visual{background:linear-gradient(145deg,#f7fbff,#eaf5ff);text-align:center;overflow:hidden}
+.pascal-subtitle{font-size:13px;color:#61758a;margin-top:-8px}
+.pascal-row{display:flex;justify-content:center;gap:clamp(5px,1vw,11px);margin:7px auto;max-width:100%;flex-wrap:nowrap}
+.pascal-row span{display:grid;place-items:center;min-width:clamp(25px,3.4vw,39px);height:clamp(27px,3.4vw,39px);padding:0 3px;border-radius:9px;background:#fff;border:1px solid #b8d8f3;color:#1769aa;font-weight:800;font-variant-numeric:tabular-nums;box-shadow:0 3px 8px #092d500d}
+.pascal-examples{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:20px 0}
+.pascal-examples .formula-card{padding:22px;border:1px solid #d6e7f6;border-radius:18px;background:#fff}
+.pascal-examples h3{color:#082b4c;line-height:1.35}
+.pascal-equation{background:#f0f7ff;border-radius:12px;padding:13px;color:#092d50;font-weight:800;line-height:1.65;overflow-wrap:anywhere}
+.pascal-note{margin-top:18px;padding:14px 16px;background:#eaf5ff;border-left:4px solid #1769aa;border-radius:8px;color:#244761}
+.pascal-steps{margin:20px 0}
+.pascal-steps li{padding-left:4px;margin:7px 0}
+.pascal-music{background:linear-gradient(135deg,#f6fbff,#eaf5ff);margin:20px 0}
+@media(max-width:760px){.pascal-layout{grid-template-columns:1fr}.pascal-examples{grid-template-columns:1fr}.pascal-row{gap:4px}.pascal-row span{min-width:25px;height:29px;font-size:13px;padding:0 2px}}
+</style>
+<style>
+/* Edición ampliada: blog editorial, más profundo y visual */
+:root{--navy:#082b4c;--blue:#1769aa;--blue2:#3b8bd6;--sky:#eaf5ff;--ice:#f6fbff;--gold:#f2bd59}
+body{background:linear-gradient(180deg,#f0f7ff 0,#fff 520px);color:#26384a}
+header{backdrop-filter:blur(14px);background:rgba(255,255,255,.94);border-bottom:1px solid #d6e7f6}
+.nav{max-width:1240px}
+.brand{letter-spacing:.6px}
+.hero{overflow:hidden;position:relative;background:radial-gradient(circle at 82% 18%,rgba(86,174,239,.35),transparent 25%),linear-gradient(125deg,#061a30 0%,#0b477e 58%,#247fc0 100%)}
+.hero:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:36px 36px;mask-image:linear-gradient(90deg,black,transparent)}
+.hero-inner{max-width:1240px;min-height:490px;position:relative}
+.hero h1{max-width:760px;font-size:clamp(40px,5.2vw,68px);line-height:1.04;letter-spacing:-2.4px}
+.hero p{max-width:650px;font-size:18px;line-height:1.8;color:#e5f3ff}
+.eyebrow{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.08);padding:8px 13px;border-radius:999px}
+main{max-width:1240px;padding-left:clamp(18px,4vw,54px);padding-right:clamp(18px,4vw,54px);background:#fff;box-shadow:0 24px 80px rgba(8,43,76,.08)}
+.quicknav{gap:14px}
+.quick{border:1px solid #d8e9f8;border-top:4px solid #1769aa;border-radius:16px;transition:transform .2s,box-shadow .2s}
+.quick:hover{transform:translateY(-4px);box-shadow:0 18px 34px rgba(8,43,76,.13)}
+section{scroll-margin-top:92px}
+section:not(.hero){padding-top:28px;padding-bottom:28px}
+.section-head{align-items:end;gap:20px;border-bottom:1px solid #d6e7f6;padding-bottom:18px;margin-bottom:26px}
+.section-head .mini{font-size:11px;letter-spacing:2.3px;color:#287cc0}
+.section-head h2{font-size:clamp(27px,3vw,39px);line-height:1.16;letter-spacing:-.8px;color:#082b4c}
+.panel,.concept,.formula-card,.wide-card,.quiz-card,.step-card{border:1px solid #d9e8f5;border-radius:17px;box-shadow:0 12px 32px rgba(8,43,76,.055)}
+.panel{padding:clamp(20px,3vw,32px)}
+.concept{padding:22px;transition:transform .18s}
+.concept:hover{transform:translateY(-3px)}
+.formula-card{overflow:hidden}
+.formula-top{background:linear-gradient(115deg,#e5f3ff,#f8fbff);padding:22px}
+.equation{border:1px solid #d5e8f8;border-radius:12px;background:#f7fbff;padding:14px 18px;font-size:clamp(17px,2vw,22px);text-align:center;color:#082b4c;font-weight:800}
+.quote-panel{background:linear-gradient(145deg,#f4faff,#e6f3ff);border-left:5px solid #f2bd59}
+.callout{margin:22px 0;padding:20px 24px;border-radius:14px;background:#edf7ff;border:1px solid #cfe5f8;border-left:5px solid #287cc0}
+.callout strong{color:#082b4c}
+.editorial-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:24px 0}
+.editorial-card{padding:23px;border-radius:16px;border:1px solid #d6e7f6;background:linear-gradient(160deg,#fff,#f4f9ff)}
+.editorial-card .number{font-size:12px;font-weight:900;letter-spacing:2px;color:#287cc0}
+.editorial-card h3{color:#082b4c;margin:10px 0 8px;font-size:19px}
+.editorial-card p{margin:0;color:#52677b;font-size:14px}
+.step-flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0}
+.step-card{padding:20px;background:white}
+.step-card .step-num{display:grid;place-items:center;width:36px;height:36px;background:#1769aa;color:white;border-radius:50%;font-weight:900;margin-bottom:12px}
+.step-card h3{font-size:17px;color:#082b4c;margin:0 0 8px}
+.step-card p{font-size:14px;margin:0}
+.practice-list{counter-reset:task;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.practice-item{counter-increment:task;display:flex;gap:14px;padding:16px;border:1px solid #d6e7f6;border-radius:13px;background:#fbfdff}
+.practice-item:before{content:counter(task,decimal-leading-zero);font-size:12px;font-weight:900;color:#1769aa;letter-spacing:1px}
+.answer{margin-top:8px;color:#1769aa;font-weight:800}
+.tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.tag-row span{background:#eaf5ff;color:#1769aa;border:1px solid #d1e6f8;padding:6px 10px;border-radius:999px;font:700 11px/1.2 Arial,sans-serif}
+footer{background:#071e36!important;color:#d9edff!important;padding:42px 20px!important}
+footer p{color:#b8d5ed!important}
+@media(max-width:760px){.editorial-grid,.step-flow,.practice-list{grid-template-columns:1fr}.hero-inner{min-height:unset}.hero p{font-size:16px}.section-head{display:block}.section-head>p{margin-top:10px}}
+@media print{body{background:white}header{position:static}.hero{print-color-adjust:exact}.quicknav{margin-top:10px}.editorial-card,.step-card,.formula-card,.panel{break-inside:avoid}footer{print-color-adjust:exact}}
+</style><style>
+.music-infographic{margin:28px 0 10px;background:#f2f8ff;border:1px solid #d6e7f6;border-radius:20px;padding:12px;overflow:hidden}
+.music-infographic img{display:block;width:100%;height:auto;border-radius:13px}
+.music-infographic figcaption{text-align:center;color:#61758a;font-size:13px;padding:12px 8px 4px}
+.rhythm-example{display:grid;grid-template-columns:1.05fr .95fr;gap:20px;align-items:stretch;margin:22px 0}
+.rhythm-card{background:linear-gradient(145deg,#f7fbff,#eaf5ff);border:1px solid #d1e6f8;border-radius:18px;padding:24px}
+.rhythm-card h3{color:#082b4c;margin-top:0}
+.rhythm-visual{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;margin:20px 0}
+.rhythm-beat{border:1px solid #9ac8ec;border-radius:9px;background:#fff;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#1769aa;font-weight:800}
+.rhythm-beat small{font-size:10px;color:#61758a;font-weight:600}
+.rhythm-math{font-size:clamp(19px,2.5vw,27px);font-weight:900;letter-spacing:.2px;text-align:center;background:#082b4c;color:white;border-radius:13px;padding:18px 10px;margin:16px 0}
+.rhythm-note{font-size:13px;color:#61758a}
+@media(max-width:760px){.rhythm-example{grid-template-columns:1fr}.rhythm-visual{gap:3px}.rhythm-beat{min-height:48px}}
+</style></head>
+<body>
+<div class="topline"></div>
+<header><nav class="nav">
+<a class="brand" href="#inicio"><span class="brand-icon">♫</span><span>ÁLGEBRA <span style="color:#287cc0">&amp;</span> MÚSICA</span></a>
+<div class="navlinks"><a href="#introduccion">Introducción</a><a href="#productos">Productos</a><a href="#cocientes">Cocientes</a><a href="#musica">Álgebra + música</a><a href="#proyecto">Proyecto</a><a href="#guia">Guía</a><a href="#practica">Practica</a><a href="#pascal">Triángulo de Pascal</a></div>
+</nav></header>
+<section class="hero" id="inicio"><div class="hero-inner">
+<div><span class="eyebrow">✦ Blog académico · 2026</span>
+<h1>El álgebra <span style="color:#a9dcff">a través de</span> la música</h1>
+<p>En este blog quiero explicar los productos y cocientes notables de una forma sencilla y mostrar algunas ideas que los conectan con la música.</p>
+<div class="hero-meta"><span class="pill">Matemáticas</span><span class="pill">Aprendizaje por patrones</span><span class="pill">Ibagué, Colombia</span></div></div>
+<div aria-hidden="true" class="hero-art"><div class="orbit"><span class="note n1">♪</span><span class="note n2">♫</span><span class="note n3">♬</span><div class="formula-orb"><span>Fórmula clave</span><strong>(a+b)²</strong><strong style="font-size:18px;color:#287cc0">= a²+2ab+b²</strong></div></div></div>
+</div></section>
+<main>
+<div class="quicknav">
+<a class="quick" href="#conceptos"><span class="qicon">∑</span><span><b>Conceptos clave</b><small>Vocabulario básico</small></span></a>
+<a class="quick" href="#productos"><span class="qicon">x²</span><span><b>Productos notables</b><small>Fórmulas y ejemplos</small></span></a>
+<a class="quick" href="#cocientes"><span class="qicon">÷</span><span><b>Cocientes notables</b><small>Divisiones algebraicas</small></span></a>
+<a class="quick" href="#musica"><span class="qicon">♫</span><span><b>Álgebra + música</b><small>Conexiones y patrones</small></span></a>
+</div>
+<section id="introduccion">
+<div class="section-head"><div><div class="mini">01 · Punto de partida</div><h2>¡Bienvenidos a mi blog!</h2></div><p>Matemáticas explicadas con orden, ejemplos y una mirada musical.</p></div>
+<div class="intro-grid">
+<div class="panel"><p>Este espacio presenta los <b>productos y cocientes notables</b>, expresiones algebraicas que siguen patrones reconocibles. Al identificar esos patrones, podemos aplicar fórmulas, desarrollar expresiones y simplificar divisiones de manera organizada.</p><p>Además, el blog explora semejanzas entre la estructura del álgebra y ciertos elementos musicales, como la repetición, el contraste, la división del tiempo y la transformación de una idea.</p><p>La meta es comprender los procedimientos matemáticos y mostrar que los patrones pueden estudiarse desde diferentes áreas del conocimiento.</p></div>
+<div class="panel quote-panel"><div class="quote-mark">“</div><h3 style="color:#092d50;margin:0 0 8px">La clave está en reconocer el patrón</h3><p style="margin:0">Una fórmula no es solamente algo para memorizar: es una estructura que podemos identificar, comprobar y aplicar en distintos ejercicios.</p><div style="margin-top:18px;color:#1769aa;font-size:12px;font-weight:900;letter-spacing:1px">IDEA CENTRAL DEL PROYECTO</div></div>
+</div></section><section id="guia">
+<div class="section-head">
+<div><div class="mini">LECTURA EN 3 PASOS</div><h2>Tu ruta por este blog</h2></div>
+<p>Una guía breve para aprovechar el contenido y estudiar con intención.</p>
+</div>
+<div class="editorial-grid">
+<article class="editorial-card"><div class="number">PASO 01 · COMPRENDER</div><h3>Reconoce el patrón</h3><p>Lee la fórmula y observa qué términos se repiten, cuáles cambian y qué signos aparecen.</p></article>
+<article class="editorial-card"><div class="number">PASO 02 · APLICAR</div><h3>Resuelve paso a paso</h3><p>Identifica la estructura, sustituye con cuidado y escribe todos los términos del resultado.</p></article>
+<article class="editorial-card"><div class="number">PASO 03 · CONECTAR</div><h3>Encuentra la música</h3><p>Compara la organización algebraica con patrones, contrastes y divisiones del tiempo musical, sin confundir las dos disciplinas.</p></article>
+</div>
+<div class="callout"><strong>Cómo estudiar:</strong> primero intenta resolver cada ejemplo sin mirar el resultado; después compáralo con el procedimiento y comprueba la respuesta desarrollando o sustituyendo valores sencillos.</div>
+</section>
+<section id="conceptos">
+<div class="section-head"><div><div class="mini">02 · Vocabulario</div><h2>Conceptos que debemos conocer</h2></div><p>Estas palabras aparecen en las fórmulas y ayudan a explicar cada procedimiento.</p></div>
+<div class="concept-grid">
+<div class="concept"><div class="symbol">𝑥</div><h3>Variable</h3><p>Letra que representa un número, como x, a o b.</p></div>
+<div class="concept"><div class="symbol">5𝑥</div><h3>Coeficiente</h3><p>Número que multiplica una variable. En 5x, el coeficiente es 5.</p></div>
+<div class="concept"><div class="symbol">(a+b)</div><h3>Binomio</h3><p>Expresión algebraica formada por dos términos.</p></div>
+<div class="concept"><div class="symbol">×</div><h3>Factor</h3><p>Cada expresión que participa en una multiplicación.</p></div>
+<div class="concept"><div class="symbol">⇄</div><h3>Factorización</h3><p>Proceso de escribir una expresión como producto de factores.</p></div>
+<div class="concept"><div class="symbol">÷</div><h3>Cociente</h3><p>Resultado que se obtiene al realizar una división.</p></div>
+</div></section>
+<section id="productos">
+<div class="section-head"><div><div class="mini">03 · Fórmulas esenciales</div><h2>Productos notables</h2></div><p>Son multiplicaciones con una estructura conocida. Reconocerla permite resolverlas usando una regla general.</p></div>
+<div class="formula-grid">
+<article class="formula-card"><div class="formula-top"><div class="formula-number">Producto notable 01</div><h3>Cuadrado de una suma</h3></div><div class="formula-body"><div class="equation">(a + b)² = a² + 2ab + b²</div><p>Se calcula el cuadrado del primer término, se suma el doble producto de ambos términos y se agrega el cuadrado del segundo.</p><b>Ejemplo resuelto: (x + 5)²</b><ol class="steps"><li>Cuadrado del primero: x².</li><li>Doble producto: 2 · x · 5 = 10x.</li><li>Cuadrado del segundo: 5² = 25.</li></ol><div class="result">Resultado: x² + 10x + 25</div></div></article>
+<article class="formula-card"><div class="formula-top"><div class="formula-number">Producto notable 02</div><h3>Cuadrado de una diferencia</h3></div><div class="formula-body"><div class="equation">(a − b)² = a² − 2ab + b²</div><p>Se conserva el cuadrado de cada término y el doble producto queda con signo negativo.</p><b>Ejemplo resuelto: (x − 4)²</b><ol class="steps"><li>Cuadrado del primero: x².</li><li>Doble producto: 2 · x · 4 = 8x, con signo negativo.</li><li>Cuadrado del segundo: 4² = 16.</li></ol><div class="result">Resultado: x² − 8x + 16</div></div></article>
+<article class="formula-card"><div class="formula-top"><div class="formula-number">Producto notable 03</div><h3>Binomios conjugados</h3></div><div class="formula-body"><div class="equation">(a + b)(a − b) = a² − b²</div><p>Los dos binomios tienen los mismos términos y signos opuestos. Los términos del medio se cancelan.</p><b>Ejemplo resuelto: (2x + 3)(2x − 3)</b><ol class="steps"><li>Cuadrado de 2x: 4x².</li><li>Cuadrado de 3: 9.</li><li>Se resta el segundo cuadrado al primero.</li></ol><div class="result">Resultado: 4x² − 9</div></div></article>
+<article class="formula-card"><div class="formula-top"><div class="formula-number">Producto notable 04</div><h3>Trinomio cuadrado perfecto</h3></div><div class="formula-body"><div class="equation">a² + 2ab + b² = (a + b)²</div><p>Un trinomio de esta forma puede factorizarse como el cuadrado de un binomio.</p><b>Ejemplo resuelto: x² + 10x + 25</b><ol class="steps"><li>x² es el cuadrado de x.</li><li>25 es el cuadrado de 5.</li><li>El término central, 10x, es 2 · x · 5.</li></ol><div class="result">Factorización: (x + 5)²</div></div></article>
+</div>
+<div class="wide-card"><h3 style="margin-top:0;color:#092d50">Una forma adicional de factorizar</h3><p>Para algunos trinomios de la forma x² + bx + c, buscamos dos números que sumen b y cuyo producto sea c.</p><div class="equation">x² + 5x + 6 = (x + 2)(x + 3)</div><p>Los números 2 y 3 suman 5 y multiplican 6. Al desarrollar (x + 2)(x + 3), recuperamos x² + 5x + 6.</p></div>
+</section>
+<section id="cocientes">
+<div class="section-head"><div><div class="mini">04 · Simplificación</div><h2>Cocientes notables</h2></div><p>Son divisiones algebraicas que pueden simplificarse cuando numerador y denominador siguen un patrón común.</p></div>
+<div class="wide-card"><h3 style="color:#092d50;margin-top:0">Ejemplo 1 · Diferencia de cuadrados</h3><div class="equation">(x² − 9) ÷ (x − 3) = x + 3</div><ol class="steps"><li>Factorizamos el numerador: x² − 9 = (x − 3)(x + 3).</li><li>Escribimos la división con los factores: [(x − 3)(x + 3)] ÷ (x − 3).</li><li>Se simplifica el factor común x − 3, siempre que x ≠ 3.</li></ol><div class="result">Resultado: x + 3, con x ≠ 3 en la expresión original.</div></div>
+<div class="wide-card"><h3 style="color:#092d50;margin-top:0">Ejemplo 2 · Diferencia de cubos</h3><div class="equation">(x³ − 8) ÷ (x − 2) = x² + 2x + 4</div><ol class="steps"><li>Reconocemos que 8 = 2³.</li><li>Aplicamos la identidad x³ − a³ = (x − a)(x² + ax + a²).</li><li>Con a = 2, el numerador se factoriza como (x − 2)(x² + 2x + 4).</li><li>Se simplifica el factor x − 2, considerando que x ≠ 2.</li></ol><div class="result">Resultado: x² + 2x + 4, con x ≠ 2 en la expresión original.</div></div>
+<div class="wide-card"><h3 style="color:#092d50;margin-top:0">Ejemplo 3 · Otra diferencia de cuadrados</h3><div class="equation">(x² − 1) ÷ (x + 1) = x − 1</div><p>Como x² − 1 = (x − 1)(x + 1), se simplifica el factor x + 1. En la expresión original debe cumplirse x ≠ −1.</p><div class="result">Resultado: x − 1, con x ≠ −1.</div></div>
+</section>
+<section>
+<div class="section-head"><div><div class="mini">05 · Comparar procesos</div><h2>Desarrollar o factorizar</h2></div><p>Son procesos inversos: uno expande una expresión y el otro la organiza como multiplicación.</p></div>
+<div class="split"><div class="good"><h3>↗ Desarrollar</h3><p>Pasar de una multiplicación a una suma o resta de términos.</p><div class="equation" style="font-size:19px">(x + 5)² → x² + 10x + 25</div></div><div class="good"><h3>↙ Factorizar</h3><p>Escribir una expresión desarrollada como producto de factores.</p><div class="equation" style="font-size:19px">x² + 10x + 25 → (x + 5)²</div></div></div>
+</section>
+<section>
+<div class="section-head"><div><div class="mini">06 · Revisión</div><h2>Errores frecuentes que debemos evitar</h2></div></div>
+<div class="split"><div class="bad"><h3>⚠️ Ojo con estos errores</h3><ul><li>Escribir (a + b)² = a² + b² y olvidar el término 2ab.</li><li>Equivocarse con el signo del doble producto en (a − b)².</li><li>Olvidar elevar al cuadrado ambos términos en binomios conjugados.</li><li>Cancelar términos que no sean factores completos.</li></ul></div><div class="good"><h3>✓ Cómo comprobar</h3><ul><li>Identificar qué fórmula coincide con la expresión.</li><li>Revisar cuidadosamente los signos.</li><li>Multiplicar los factores para verificar la factorización.</li><li>Comprobar que el denominador original no sea cero.</li></ul></div></div>
+</section>
+<section id="musica"><div class="section-head"><div><div class="mini">07 · Conexión interdisciplinar</div><h2>¿Qué tiene que ver el álgebra con la música?</h2></div><p>Aunque la música y las matemáticas son diferentes, en las dos podemos encontrar patrones y formas de organizar las cosas.</p></div><div class="music-grid">
+<div class="music-card"><div class="music-icon">🎼</div><div><h3>1. Patrones y estructuras</h3><p>El binomio al cuadrado sigue una secuencia definida: primer cuadrado, doble producto y segundo cuadrado. De manera semejante, una pieza musical puede organizarse mediante motivos y partes que se repiten.</p></div></div>
+<div class="music-card"><div class="music-icon">⚖️</div><div><h3>2. Binomios conjugados y contraste</h3><p>En (a + b)(a − b), los términos intermedios se cancelan. Esta característica puede compararse, como analogía, con el contraste y el equilibrio entre elementos musicales.</p></div></div>
+<div class="music-card"><div class="music-icon">🥁</div><div><h3>3. Cocientes y tiempo rítmico</h3><p>Las divisiones algebraicas simplifican expresiones. En música, los compases como 4/4 y 3/4 organizan unidades de tiempo. La conexión está en la idea general de dividir y organizar partes.</p></div></div>
+<div class="music-card"><div class="music-icon">🎹</div><div><h3>4. Factorización y variaciones</h3><p>Factorizar permite reconocer los elementos que forman una expresión. De manera análoga, analizar una idea musical puede ayudar a identificar sus componentes y entender cómo se reorganizan.</p></div></div>
+</div><div class="note-box"><b>Importante:</b> estas conexiones son analogías educativas para facilitar la comprensión. Una fórmula algebraica y un compás musical no son lo mismo; cada uno tiene sus propias reglas.</div><div class="rhythm-example" id="ejemplo-musical">
+<article class="rhythm-card">
+<div class="mini">EJEMPLO MUSICAL APLICADO</div>
+<h3>Un compás de 4/4 también se puede analizar con números</h3>
+<p>En un compás de 4/4, contamos cuatro tiempos de negra. Si cada tiempo dura <b>t</b>, la duración total del compás es <b>4t</b>.</p>
+<p>Si cada tiempo se divide en dos corcheas iguales, aparecen ocho corcheas. Cada corchea dura <b>t/2</b>.</p>
+<div aria-label="Ocho corcheas que forman cuatro tiempos" class="rhythm-visual">
+<div class="rhythm-beat">♪<small>1</small></div><div class="rhythm-beat">♪<small>1 y</small></div>
+<div class="rhythm-beat">♪<small>2</small></div><div class="rhythm-beat">♪<small>2 y</small></div>
+<div class="rhythm-beat">♪<small>3</small></div><div class="rhythm-beat">♪<small>3 y</small></div>
+<div class="rhythm-beat">♪<small>4</small></div><div class="rhythm-beat">♪<small>4 y</small></div>
+</div>
+<div class="rhythm-math">8 × (t/2) = 4t</div>
+<p class="rhythm-note">La expresión representa la duración total, no una fórmula de producto notable: muestra cómo las matemáticas pueden describir la subdivisión del tiempo.</p>
+</article>
+<article class="rhythm-card">
+<div class="mini">¿QUÉ NOS ENSEÑA?</div>
+<h3>De la notación al razonamiento</h3>
+<p><b>1. Identificar:</b> el compás tiene cuatro tiempos principales.</p>
+<p><b>2. Dividir:</b> cada tiempo se reparte en dos partes iguales.</p>
+<p><b>3. Representar:</b> ocho subdivisiones de duración t/2.</p>
+<p><b>4. Comprobar:</b> ocho mitades de tiempo equivalen a cuatro tiempos completos.</p>
+<div class="callout"><strong>Conexión con el álgebra:</strong> usar una letra como <i>t</i> permite representar una duración desconocida y razonar con ella. Esa es una de las ideas centrales del pensamiento algebraico.</div>
+</article>
+</div></section>
+<section id="pascal">
+<div class="section-head">
+<div>
+<div class="mini">08 · Patrón de coeficientes</div>
+<h2>El triángulo de Pascal y los productos notables</h2>
+</div>
+<p>Una pirámide numérica que permite descubrir los coeficientes de las potencias de un binomio sin multiplicar todo desde cero.</p>
+</div>
+<div class="pascal-layout">
+<div class="wide-card pascal-explainer">
+<h3>¿Qué es el triángulo de Pascal?</h3>
+<p>El <strong>triángulo de Pascal</strong> es una disposición de números en filas. Empieza con un 1; cada fila nueva comienza y termina en 1, y cada número interior se obtiene sumando los dos números que están justo encima.</p>
+<p>Por ejemplo, en la fila <strong>1, 3, 3, 1</strong>, los dos números centrales son 1 + 2 = 3 y 2 + 1 = 3. Esta regla produce un patrón ordenado que también aparece al desarrollar potencias de binomios.</p>
+<div class="pascal-note"><strong>Regla para recordarlo:</strong> los bordes siempre son 1; en el centro, suma los dos números de arriba.</div>
+</div>
+<div aria-label="Primeras filas del triángulo de Pascal" class="wide-card pascal-visual">
+<h3>Las primeras filas</h3>
+<p class="pascal-subtitle">Fila 0 hasta fila 6</p>
+<div class="pascal-row"><span>1</span></div>
+<div class="pascal-row"><span>1</span><span>1</span></div>
+<div class="pascal-row"><span>1</span><span>2</span><span>1</span></div>
+<div class="pascal-row"><span>1</span><span>3</span><span>3</span><span>1</span></div>
+<div class="pascal-row"><span>1</span><span>4</span><span>6</span><span>4</span><span>1</span></div>
+<div class="pascal-row"><span>1</span><span>5</span><span>10</span><span>10</span><span>5</span><span>1</span></div>
+<div class="pascal-row"><span>1</span><span>6</span><span>15</span><span>20</span><span>15</span><span>6</span><span>1</span></div>
+</div>
+</div>
+<div class="pascal-examples">
+<article class="formula-card">
+<div class="mini">Fila 2 · Coeficientes 1, 2, 1</div>
+<h3>Cuadrado de un binomio</h3>
+<p class="pascal-equation">(a + b)² = a² + <strong>2</strong>ab + b²</p>
+<p>La fila 1, 2, 1 indica los coeficientes: uno para el primer término, dos para el término del medio y uno para el último.</p>
+</article>
+<article class="formula-card">
+<div class="mini">Fila 3 · Coeficientes 1, 3, 3, 1</div>
+<h3>Cubo de un binomio</h3>
+<p class="pascal-equation">(a + b)³ = a³ + <strong>3</strong>a²b + <strong>3</strong>ab² + b³</p>
+<p>La fila 1, 3, 3, 1 aporta los cuatro coeficientes. Las potencias de <em>a</em> bajan de 3 a 0 y las de <em>b</em> suben de 0 a 3.</p>
+</article>
+<article class="formula-card">
+<div class="mini">Fila 4 · Coeficientes 1, 4, 6, 4, 1</div>
+<h3>Potencia cuarta</h3>
+<p class="pascal-equation">(a + b)⁴ = a⁴ + 4a³b + 6a²b² + 4ab³ + b⁴</p>
+<p>En la cuarta potencia aparecen cinco términos y el coeficiente central es 6. Así se ve cómo el patrón crece de forma organizada.</p>
+</article>
+</div>
+<div class="wide-card pascal-steps">
+<h3>Cómo usarlo paso a paso</h3>
+<ol>
+<li>Identifica la potencia del binomio. Por ejemplo, en (x + 2)³ la potencia es 3.</li>
+<li>Busca la fila 3 del triángulo: <strong>1, 3, 3, 1</strong>.</li>
+<li>Escribe las potencias de la primera letra en orden descendente: x³, x², x, 1.</li>
+<li>Escribe las potencias del segundo término en orden ascendente: 1, 2, 2², 2³.</li>
+<li>Multiplica cada pareja y aplica los coeficientes. El resultado es <strong>x³ + 6x² + 12x + 8</strong>.</li>
+</ol>
+<div class="pascal-note"><strong>Ejemplo completo:</strong> (x + 2)³ = x³ + 3(x²)(2) + 3(x)(2²) + 2³ = x³ + 6x² + 12x + 8.</div>
+</div>
+<div class="wide-card pascal-music">
+<h3>¿Y qué tiene que ver con la música?</h3>
+<p>El triángulo de Pascal no es una fórmula musical, pero sirve para reconocer una idea que comparten la música y el álgebra: <strong>un patrón sencillo puede generar una estructura más compleja</strong>. En música, un motivo rítmico puede repetirse con variaciones; en álgebra, una regla de suma construye nuevas filas y estas filas organizan los coeficientes de cada potencia.</p>
+<p>Observar las filas, anticipar el siguiente número y comprobar la regla es una forma de practicar el reconocimiento de patrones, una habilidad útil tanto para resolver expresiones como para estudiar ritmos y estructuras musicales.</p>
+</div>
+</section><section>
+<div class="section-head"><div><div class="mini">09 · Repaso rápido</div><h2>Tabla de fórmulas</h2></div><p>Una vista general para repasar antes de resolver ejercicios.</p></div>
+<div class="wide-card table-wrap"><table><thead><tr><th>Nombre</th><th>Forma algebraica</th><th>Idea clave</th></tr></thead><tbody>
+<tr><td>Cuadrado de una suma</td><td>(a + b)² = a² + 2ab + b²</td><td>Doble producto positivo</td></tr>
+<tr><td>Cuadrado de una diferencia</td><td>(a − b)² = a² − 2ab + b²</td><td>Doble producto negativo</td></tr>
+<tr><td>Binomios conjugados</td><td>(a + b)(a − b) = a² − b²</td><td>Se cancelan los términos medios</td></tr>
+<tr><td>Diferencia de cuadrados</td><td>a² − b² = (a − b)(a + b)</td><td>Se factoriza en conjugados</td></tr>
+<tr><td>Diferencia de cubos</td><td>a³ − b³ = (a − b)(a² + ab + b²)</td><td>Factorización de cubos</td></tr>
+</tbody></table></div>
+</section>
+<section id="procedimientos">
+<div class="section-head">
+<div><div class="mini">TALLER GUIADO</div><h2>Del patrón al resultado: tres procedimientos completos</h2></div>
+<p>Las fórmulas se entienden mejor cuando podemos explicar por qué funciona cada paso.</p>
+</div>
+<div class="step-card" style="margin-bottom:18px">
+<div class="tag-row"><span>PRODUCTO NOTABLE</span><span>CUADRADO DE BINOMIO</span></div>
+<h3>Ejemplo A · Desarrollar (x + 4)²</h3>
+<p><b>1.</b> Reconocemos la forma: (a + b)² = a² + 2ab + b².</p>
+<p><b>2.</b> Identificamos a = x y b = 4.</p>
+<p><b>3.</b> Sustituimos: x² + 2(x)(4) + 4².</p>
+<p><b>4.</b> Simplificamos: <b>x² + 8x + 16</b>.</p>
+<div class="equation">(x + 4)² = x² + 8x + 16</div>
+<p class="answer">Comprobación: (x + 4)(x + 4) produce x² + 4x + 4x + 16; al reunir términos, queda x² + 8x + 16.</p>
+</div>
+<div class="step-card" style="margin-bottom:18px">
+<div class="tag-row"><span>PRODUCTO NOTABLE</span><span>BINOMIOS CONJUGADOS</span></div>
+<h3>Ejemplo B · Simplificar (3x + 2)(3x − 2)</h3>
+<p><b>1.</b> Observamos los mismos términos, pero con signos opuestos en el segundo término.</p>
+<p><b>2.</b> Aplicamos (a + b)(a − b) = a² − b².</p>
+<p><b>3.</b> Tomamos a = 3x y b = 2: (3x)² − 2².</p>
+<p><b>4.</b> Elevamos cada término al cuadrado: <b>9x² − 4</b>.</p>
+<div class="equation">(3x + 2)(3x − 2) = 9x² − 4</div>
+<p class="answer">Idea para recordar: los términos del medio se cancelan porque aparece −6x + 6x.</p>
+</div>
+<div class="step-card">
+<div class="tag-row"><span>COCIENTE NOTABLE</span><span>DIFERENCIA DE CUADRADOS</span></div>
+<h3>Ejemplo C · Simplificar (x² − 25)/(x − 5)</h3>
+<p><b>1.</b> Reconocemos que x² − 25 = x² − 5².</p>
+<p><b>2.</b> Factorizamos el numerador: x² − 25 = (x − 5)(x + 5).</p>
+<p><b>3.</b> Escribimos la fracción y cancelamos el factor común x − 5.</p>
+<div class="equation">(x² − 25)/(x − 5) = x + 5, con x ≠ 5</div>
+<p class="answer">Importante: la expresión original no está definida en x = 5. Por eso, la restricción se conserva aunque el factor se simplifique.</p>
+</div>
+</section><section>
+<div class="section-head"><div><div class="mini">09 · Comprueba lo aprendido</div><h2>Mini reto de práctica</h2></div><p>Responde y revisa si reconoces el patrón correcto.</p></div>
+<div class="quiz"><h3>¿Cuál es el desarrollo de (x + 3)²?</h3><div class="quiz-options"><button onclick="answer(false)">x² + 9</button><button onclick="answer(true)">x² + 6x + 9</button><button onclick="answer(false)">x² + 3x + 9</button></div><div aria-live="polite" id="feedback"></div><p style="font-size:13px;color:#61758a;margin-bottom:0">Pista: recuerda calcular el doble producto 2 · x · 3.</p></div>
+</section>
+<section id="practica">
+<div class="section-head">
+<div><div class="mini">AHORA TE TOCA A TI</div><h2>Laboratorio de práctica</h2></div>
+<p>Resuelve en tu cuaderno. Abre cada respuesta solo después de intentarlo.</p>
+</div>
+<div class="practice-list">
+<div class="practice-item"><div><b>Desarrolla:</b> (x + 6)²<details><summary>Ver respuesta y pista</summary><p class="answer">x² + 12x + 36. Pista: el término del medio es 2·x·6.</p></details></div></div>
+<div class="practice-item"><div><b>Desarrolla:</b> (y − 3)²<details><summary>Ver respuesta y pista</summary><p class="answer">y² − 6y + 9. Recuerda que el doble producto es negativo, pero el último término queda positivo.</p></details></div></div>
+<div class="practice-item"><div><b>Simplifica:</b> (2a + 5)(2a − 5)<details><summary>Ver respuesta y pista</summary><p class="answer">4a² − 25. Se usa diferencia de cuadrados.</p></details></div></div>
+<div class="practice-item"><div><b>Factoriza:</b> x² + 7x + 12<details><summary>Ver respuesta y pista</summary><p class="answer">(x + 3)(x + 4), porque 3·4 = 12 y 3 + 4 = 7.</p></details></div></div>
+<div class="practice-item"><div><b>Simplifica:</b> (x² − 16)/(x − 4)<details><summary>Ver respuesta y pista</summary><p class="answer">x + 4, con x ≠ 4.</p></details></div></div>
+<div class="practice-item"><div><b>Explica con tus palabras:</b> ¿qué tienen en común una fórmula algebraica y un patrón rítmico?<details><summary>Una posible idea</summary><p class="answer">Ambos organizan elementos mediante reglas o repeticiones. La comparación ayuda a reconocer estructuras, aunque una fórmula algebraica y un ritmo musical no son lo mismo.</p></details></div></div>
+</div>
+<div class="callout"><strong>Autoevaluación:</strong> si te equivocaste, identifica si el error fue reconocer la fórmula, manejar los signos, multiplicar o simplificar. Corregir el paso concreto enseña más que memorizar la respuesta.</div>
+</section><section id="proyecto">
+<div class="section-head"><div><div class="mini">10 · Sobre el proyecto</div><h2>Objetivos y desarrollo</h2></div><p>En este blog reuní los temas principales y algunos ejemplos para explicar cómo se pueden relacionar las matemáticas con la música.</p></div>
+<div class="wide-card"><h3 style="color:#092d50;margin-top:0">Objetivo general</h3><p>Aprender y explicar los productos y cocientes notables, buscando conexiones con la música.</p><h3 style="color:#092d50">Objetivos específicos</h3><ul><li>Reconocer y utilizar fórmulas de productos y cocientes notables.</li><li>Practicar el razonamiento matemático y buscar ejemplos de patrones en ritmos y melodías.</li><li>Aprender a resolver ejercicios y compartir ideas con otras personas.</li><li>Usar herramientas digitales que ayuden a estudiar y presentar la información.</li></ul></div>
+<div class="section-head"><div><div class="mini">Proceso de trabajo</div><h2>Etapas del proyecto</h2></div></div>
+<div class="timeline"><div class="stage"><div class="num">ETAPA 01</div><h3>Investigar</h3><p>Consultar conceptos y fórmulas principales.</p></div><div class="stage"><div class="num">ETAPA 02</div><h3>Resolver</h3><p>Seleccionar ejemplos y comprobar procedimientos.</p></div><div class="stage"><div class="num">ETAPA 03</div><h3>Relacionar</h3><p>Explorar semejanzas entre patrones algebraicos y musicales.</p></div><div class="stage"><div class="num">ETAPA 04</div><h3>Comunicar</h3><p>Organizar la información en un blog claro y visual.</p></div></div>
+<div class="section-head"><div><div class="mini">Resultados esperados</div><h2>¿Qué se espera lograr?</h2></div></div>
+<div class="panel"><div class="fact-list"><div class="fact"><span class="check">✓</span><div><b>Comprensión matemática</b><br/>Reconocer fórmulas y aplicarlas en ejercicios.</div></div><div class="fact"><span class="check">✓</span><div><b>Razonamiento</b><br/>Identificar patrones y comprobar resultados.</div></div><div class="fact"><span class="check">✓</span><div><b>Conexión interdisciplinar</b><br/>Explicar semejanzas entre álgebra y música sin confundir sus conceptos.</div></div><div class="fact"><span class="check">✓</span><div><b>Comunicación</b><br/>Presentar la información de forma ordenada y fácil de consultar.</div></div></div></div>
+</section>
+<section>
+<div class="section-head"><div><div class="mini">11 · Palabras clave</div><h2>Glosario breve</h2></div></div>
+<div class="glossary"><div><b>Álgebra:</b> uso de letras y símbolos para representar números y relaciones.</div><div><b>Expresión algebraica:</b> combinación de números, variables y operaciones.</div><div><b>Producto:</b> resultado de una multiplicación.</div><div><b>Binomio:</b> expresión algebraica de dos términos.</div><div><b>Factorización:</b> escritura de una expresión como producto de factores.</div><div><b>Patrón:</b> estructura o regularidad que puede reconocerse.</div></div>
+</section>
+<section>
+<div class="section-head"><div><div class="mini">12 · Cierre</div><h2>Conclusión</h2></div></div>
+<div class="final-box"><h2>Las fórmulas también nos ayudan a encontrar patrones</h2><p>Al hacer este proyecto entendí que el álgebra y la música son distintas, pero que ambas pueden ayudarnos a reconocer patrones y organizar elementos. Los productos y cocientes notables se aprenden mejor cuando practicamos y revisamos cada paso. Espero que los ejemplos de este blog ayuden a entenderlos de una manera más cercana.</p></div>
+</section>
+<section>
+<div class="section-head"><div><div class="mini">13 · Referencias</div><h2>Fuentes consultadas</h2></div><p>Verifica que las referencias coincidan con los materiales que realmente utilizaste.</p></div>
+<div class="panel"><ul class="source-list"><li><b>Documento base del proyecto:</b> <i>El Enigma de la Partitura Perdida: Un Escape Room de Álgebra sobre Productos y Cocientes Notables.</i> Documento de avance del proyecto, 2026.</li><li><b>Universo Fórmulas:</b> material de consulta sobre expresiones algebraicas y productos notables.</li><li><b>Kennedy Center:</b> recursos educativos para explorar conexiones entre música y aprendizaje.</li></ul><p style="font-size:13px;color:#61758a">Antes de entregar, completa los autores, títulos exactos, enlaces y fechas de consulta de las fuentes que revisaste. No incluyas una fuente que no hayas consultado.</p></div>
+<div class="callout"><strong>Revisión antes de entregar: </strong>confirma el autor, título, año y enlace de cada fuente que hayas consultado. No conserves referencias que no puedas localizar o que no hayas utilizado.</div></section>
+<section>
+<div class="section-head"><div><div class="mini">Ficha académica</div><h2>Datos del proyecto</h2></div></div>
+<div class="panel"><div class="fact-list"><div class="fact"><span class="check">✦</span><div><b>Estudiante</b><br/>Mathias Quintero Osorio</div></div><div class="fact"><span class="check">✦</span><div><b>Docente</b><br/>Olga Castro</div></div><div class="fact"><span class="check">✦</span><div><b>Área</b><br/>Matemáticas</div></div><div class="fact"><span class="check">✦</span><div><b>Institución</b><br/>Institución Educativa Técnica Musical Amina Melendro de Pulecio</div></div><div class="fact"><span class="check">✦</span><div><b>Ciudad y año</b><br/>Ibagué, Colombia · 2026</div></div></div></div>
+</section>
+</main>
+<footer><div class="footbrand">♫ ÁLGEBRA &amp; MÚSICA</div><p>Productos y Cocientes Notables · Proyecto académico · 2026</p><p>Aprender a reconocer patrones, una fórmula a la vez.</p><a class="backtop" href="#inicio">↑ Volver al inicio</a></footer>
+<script>
+function answer(correct){
+ const f=document.getElementById('feedback');
+ if(correct){f.textContent='¡Correcto! El doble producto es 2 · x · 3 = 6x.';f.style.color='#1769aa';}
+ else{f.textContent='Casi. Recuerda que el cuadrado de un binomio incluye el doble producto: 2 · x · 3 = 6x.';f.style.color='#9a5b00';}
+}
+</script>
+</body></html>
